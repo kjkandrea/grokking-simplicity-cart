@@ -1,18 +1,24 @@
 import {Cart as CartData, getCart} from "./data/cart";
 
 class Cart {
+	private rootElement: HTMLElement;
 	private cart: CartData;
 
 	constructor(rootElement: HTMLElement) {
 		this.cart = getCart();
-		this.render(rootElement)
+		this.rootElement = rootElement;
+		this.update();
+	}
+
+	private update() {
+		this.render(this.rootElement);
 	}
 
 	private render(rootElement: HTMLElement) {
 		rootElement.append(this.cartHTMLElement);
 	}
 
-	get cartHTMLElement() {
+	private get cartHTMLElement() {
 		const wrapperElement = document.createElement('ul');
 
 		Object.entries(this.cart)
