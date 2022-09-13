@@ -1,5 +1,5 @@
 import './style.css'
-import { setupCounter } from './cart'
+import setup from './cart'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
@@ -8,7 +8,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </a>
     <h1>Vite + TypeScript</h1>
     <div class="card">
-      <button id="counter" type="button"></button>
+      <div id="cart"></div>
     </div>
     <p class="read-the-docs">
       Click on the Vite and TypeScript logos to learn more
@@ -16,4 +16,4 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </div>
 `
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+setup(document.querySelector<HTMLDivElement>('#cart')!)

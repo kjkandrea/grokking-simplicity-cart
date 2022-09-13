@@ -1,9 +1,8 @@
-export function setupCounter(element: HTMLButtonElement) {
-  let counter = 0
-  const setCounter = (count: number) => {
-    counter = count
-    element.innerHTML = `count is ${counter}`
+class Cart {
+  static setup(element: HTMLElement) {
+    element.innerHTML = 'Hello, I am Cart.'
   }
-  element.addEventListener('click', () => setCounter(++counter))
-  setCounter(0)
 }
+
+export default Cart.setup;
+
