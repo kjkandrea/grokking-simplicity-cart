@@ -38,6 +38,16 @@ class Cart {
 
 		return wrapperElement;
 	}
+
+	public setFieldByName
+	<Field extends keyof CartData[number]>
+	(
+		cartItemName: keyof CartData,
+		field: Field,
+		value: CartData[number][Field],
+	) {
+		console.log(cartItemName, field, value);
+	}
 }
 
 export default function setup(rootElement: HTMLElement) {
