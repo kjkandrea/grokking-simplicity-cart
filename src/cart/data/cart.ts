@@ -4,7 +4,7 @@ interface CartItem {
 	shipping: string,
 }
 
-interface Cart {
+export interface Cart {
 	[cartItemName: string]: CartItem
 }
 
