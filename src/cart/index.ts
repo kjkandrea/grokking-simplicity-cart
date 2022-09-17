@@ -41,11 +41,10 @@ class Cart {
 	}
 
 	public setFieldByName
-	<Field extends keyof CartData[number]>
 	(
 		cartItemName: keyof CartData,
-		field: Field,
-		value: CartData[number][Field],
+		fieldName: keyof CartItem,
+		value: CartItem[keyof CartItem],
 	) {
 		const newCart = { ...this.cart };
 		newCart[cartItemName][field] = value;
