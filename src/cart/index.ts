@@ -8,15 +8,10 @@ class Cart {
 	constructor(rootElement: HTMLElement, cartData: CartData) {
 		this.cart = cartData;
 		this.rootElement = rootElement;
-		this.update();
-	}
-
-	private update() {
 		this.render(this.rootElement);
 	}
 
 	private render(rootElement: HTMLElement) {
-		rootElement.innerHTML = '';
 		rootElement.append(this.cartHTMLElement);
 	}
 
@@ -24,26 +19,39 @@ class Cart {
 		const wrapperElement = document.createElement('ul');
 
 		Object.entries(this.cart)
-			.map(([cartItemName, cart]) => {
-				const itemElement = document.createElement('li');
-
-				itemElement.textContent = `
-					name: ${cartItemName},
-					price: ${cart.price},
-					quantity: ${cart.quantity},
-					shipping: ${cart.shipping},
-				`
-
-				return itemElement;
-			})
+			.map(([cartItemName, cartItem]) => this.generateCartItemHTMLElement(cartItemName, cartItem))
 			.forEach(cartItem => wrapperElement.appendChild(cartItem));
 
 		return wrapperElement;
 	}
 
+	private generateCartItemHTMLElement(cartItemName: string, cartItem: CartItem) {
+		const itemElement = document.createElement('li');
+		itemElement.dataset.itemName = cartItemName;
+
+		itemElement.textContent = this.generateCartItemTextContent(cartItemName, cartItem);
+
+		return itemElement;
+	}
+
+	private rerenderCartItemElement(cartItemName: string) {
+		const cartItemElement = document.querySelector(`li[data-item-name=${cartItemName}]`)!
+
+		cartItemElement.textContent = this.generateCartItemTextContent(cartItemName, this.cart[cartItemName]);
+	}
+
+	private generateCartItemTextContent(cartItemName: string, cartItem: CartItem) {
+		return `
+			name: ${cartItemName},
+			price: ${cartItem.price},
+			quantity: ${cartItem.quantity},
+			shipping: ${cartItem.shipping},
+		`
+	}
+
 	public setCartItemFieldBy
 	(
-		cartItemName: keyof CartData,
+		cartItemName: string,
 		fieldName: keyof CartItem,
 		value: CartItem[keyof CartItem],
 	) {
@@ -52,7 +60,7 @@ class Cart {
 		newCart[cartItemName] = swallowCopy.objectSet(newCart[cartItemName], fieldName, value);
 		this.cart = newCart;
 
-		this.update();
+		this.rerenderCartItemElement(cartItemName)
 	}
 }
 
