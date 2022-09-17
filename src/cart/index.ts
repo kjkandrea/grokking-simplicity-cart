@@ -1,4 +1,5 @@
-import {Cart as CartData, getCart} from "./data/cart";
+import {Cart as CartData, CartItem, getCart} from "./data/cart";
+import swallowCopy from "../utils/swallowCopy";
 
 class Cart {
 	private readonly rootElement: HTMLElement;
@@ -46,8 +47,8 @@ class Cart {
 		fieldName: keyof CartItem,
 		value: CartItem[keyof CartItem],
 	) {
-		const newCart = { ...this.cart };
-		newCart[cartItemName][field] = value;
+		const newCart = swallowCopy.copy(this.cart);
+		newCart[cartItemName] = swallowCopy.objectSet(newCart[cartItemName], fieldName, value);
 		this.cart = newCart;
 
 		this.update();
