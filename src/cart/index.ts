@@ -41,7 +41,7 @@ class Cart {
 		return wrapperElement;
 	}
 
-	public setFieldByName
+	public setCartItemFieldBy
 	(
 		cartItemName: keyof CartData,
 		fieldName: keyof CartItem,

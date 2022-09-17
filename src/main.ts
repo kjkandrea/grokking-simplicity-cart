@@ -17,4 +17,4 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 `
 
 const cart = setup(document.querySelector<HTMLDivElement>('#cart')!)
-cart.setFieldByName('shoes', 'price', 500);
+cart.setCartItemFieldBy('shoes', 'price', 500);
