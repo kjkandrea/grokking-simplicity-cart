@@ -1,12 +1,12 @@
-import {Cart as CartData, CartItem, getCart} from "./data/cart";
+import {Cart as CartData, CartItem} from "./data/cart";
 import swallowCopy from "../utils/swallowCopy";
 
 class Cart {
 	private readonly rootElement: HTMLElement;
 	private cart: CartData;
 
-	constructor(rootElement: HTMLElement) {
-		this.cart = getCart();
+	constructor(rootElement: HTMLElement, cartData: CartData) {
+		this.cart = cartData;
 		this.rootElement = rootElement;
 		this.update();
 	}
@@ -56,7 +56,7 @@ class Cart {
 	}
 }
 
-export default function setup(rootElement: HTMLElement) {
-	return new Cart(rootElement);
+export default function setup(rootElement: HTMLElement, cartData: CartData) {
+	return new Cart(rootElement, cartData);
 };
 

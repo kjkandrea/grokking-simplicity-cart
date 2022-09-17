@@ -8,7 +8,7 @@ export interface Cart {
     [cartItemName: string]: CartItem
 }
 
-export const getCart = (): Cart => ({
+export const getCartData = (): Cart => ({
     shoes: {
         price: 1000,
         quantity: 1,
