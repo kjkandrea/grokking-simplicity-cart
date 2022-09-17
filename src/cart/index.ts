@@ -1,7 +1,7 @@
 import {Cart as CartData, getCart} from "./data/cart";
 
 class Cart {
-	private rootElement: HTMLElement;
+	private readonly rootElement: HTMLElement;
 	private cart: CartData;
 
 	constructor(rootElement: HTMLElement) {
@@ -46,7 +46,9 @@ class Cart {
 		field: Field,
 		value: CartData[number][Field],
 	) {
-		console.log(cartItemName, field, value);
+		const newCart = { ...this.cart };
+		newCart[cartItemName][field] = value;
+		this.cart = newCart;
 	}
 }
 
