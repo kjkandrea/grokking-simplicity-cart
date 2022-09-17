@@ -48,6 +48,7 @@ class Cart {
 		value: CartItem[keyof CartItem],
 	) {
 		const newCart = swallowCopy.copy(this.cart);
+		if (!newCart[cartItemName]) throw Error('존재하지 않는 cartItemName 입니다.')
 		newCart[cartItemName] = swallowCopy.objectSet(newCart[cartItemName], fieldName, value);
 		this.cart = newCart;
 
