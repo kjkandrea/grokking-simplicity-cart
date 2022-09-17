@@ -2,69 +2,81 @@ import {Cart as CartData, CartItem} from "./data/cart";
 import swallowCopy from "../utils/swallowCopy";
 
 class Cart {
-	private readonly rootElement: HTMLElement;
-	private cart: CartData;
+    private cart: CartData;
+    private cartRenderer: CartRenderer;
 
-	constructor(rootElement: HTMLElement, cartData: CartData) {
-		this.cart = cartData;
-		this.rootElement = rootElement;
-		this.render(this.rootElement);
-	}
+    constructor(rootElement: HTMLElement, cartData: CartData) {
+        this.cart = cartData;
+        this.cartRenderer = new CartRenderer(rootElement);
+        this.cartRenderer.render(this.cart);
+    }
 
-	private render(rootElement: HTMLElement) {
-		rootElement.append(this.cartHTMLElement);
-	}
+    public setCartItemFieldBy
+    (
+        cartItemName: string,
+        fieldName: keyof CartItem,
+        value: CartItem[keyof CartItem],
+    ) {
+        const newCart = swallowCopy.copy(this.cart);
+        if (!newCart[cartItemName]) throw Error('존재하지 않는 cartItemName 입니다.')
+        newCart[cartItemName] = swallowCopy.objectSet(newCart[cartItemName], fieldName, value);
+        this.cart = newCart;
 
-	private get cartHTMLElement() {
-		const wrapperElement = document.createElement('ul');
+        this.rerenderCartItemElement(cartItemName)
+    }
 
-		Object.entries(this.cart)
-			.map(([cartItemName, cartItem]) => this.generateCartItemHTMLElement(cartItemName, cartItem))
-			.forEach(cartItem => wrapperElement.appendChild(cartItem));
+    private rerenderCartItemElement(cartItemName: string) {
+        this.cartRenderer.rerenderCartItemElement(cartItemName, this.cart[cartItemName])
+    }
+}
 
-		return wrapperElement;
-	}
+class CartRenderer {
+    private readonly rootElement: HTMLElement;
 
-	private generateCartItemHTMLElement(cartItemName: string, cartItem: CartItem) {
-		const itemElement = document.createElement('li');
-		itemElement.dataset.itemName = cartItemName;
+    constructor(rootElement: HTMLElement) {
+        this.rootElement = rootElement;
+    }
 
-		itemElement.textContent = this.generateCartItemTextContent(cartItemName, cartItem);
+    public render(cartData: CartData) {
+        this.rootElement.append(this.generateCartHTMLElement(cartData));
+    }
 
-		return itemElement;
-	}
+    private generateCartHTMLElement(cartData: CartData) {
+        const wrapperElement = document.createElement('ul');
 
-	private rerenderCartItemElement(cartItemName: string) {
-		const cartItemElement = document.querySelector(`li[data-item-name=${cartItemName}]`)!
+        Object.entries(cartData)
+            .map(([cartItemName, cartItem]) => this.generateCartItemHTMLElement(cartItemName, cartItem))
+            .forEach(cartItem => wrapperElement.appendChild(cartItem));
 
-		cartItemElement.textContent = this.generateCartItemTextContent(cartItemName, this.cart[cartItemName]);
-	}
+        return wrapperElement;
+    }
 
-	private generateCartItemTextContent(cartItemName: string, cartItem: CartItem) {
-		return `
+    private generateCartItemHTMLElement(cartItemName: string, cartItem: CartItem) {
+        const itemElement = document.createElement('li');
+        itemElement.dataset.itemName = cartItemName;
+
+        itemElement.textContent = this.generateCartItemTextContent(cartItemName, cartItem);
+
+        return itemElement;
+    }
+
+    public rerenderCartItemElement(cartItemName: string, cartItem: CartItem) {
+        const cartItemElement = document.querySelector(`li[data-item-name=${cartItemName}]`)!
+
+        cartItemElement.textContent = this.generateCartItemTextContent(cartItemName, cartItem);
+    }
+
+    private generateCartItemTextContent(cartItemName: string, cartItem: CartItem) {
+        return `
 			name: ${cartItemName},
 			price: ${cartItem.price},
 			quantity: ${cartItem.quantity},
 			shipping: ${cartItem.shipping},
 		`
-	}
-
-	public setCartItemFieldBy
-	(
-		cartItemName: string,
-		fieldName: keyof CartItem,
-		value: CartItem[keyof CartItem],
-	) {
-		const newCart = swallowCopy.copy(this.cart);
-		if (!newCart[cartItemName]) throw Error('존재하지 않는 cartItemName 입니다.')
-		newCart[cartItemName] = swallowCopy.objectSet(newCart[cartItemName], fieldName, value);
-		this.cart = newCart;
-
-		this.rerenderCartItemElement(cartItemName)
-	}
+    }
 }
 
 export default function setup(rootElement: HTMLElement, cartData: CartData) {
-	return new Cart(rootElement, cartData);
+    return new Cart(rootElement, cartData);
 };
 
