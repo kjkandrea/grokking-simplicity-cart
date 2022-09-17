@@ -15,6 +15,7 @@ class Cart {
 	}
 
 	private render(rootElement: HTMLElement) {
+		rootElement.innerHTML = '';
 		rootElement.append(this.cartHTMLElement);
 	}
 
@@ -49,6 +50,8 @@ class Cart {
 		const newCart = { ...this.cart };
 		newCart[cartItemName][field] = value;
 		this.cart = newCart;
+
+		this.update();
 	}
 }
 
