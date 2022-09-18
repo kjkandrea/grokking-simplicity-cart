@@ -11,11 +11,13 @@ class Cart {
         this.cartRenderer.render(this.cart);
     }
 
+    // 함수 이름에 있는 암묵적 인자 들어내기
     public setCartItemFieldBy
+    <FieldName extends keyof CartItem>
     (
         cartItemName: string,
-        fieldName: keyof CartItem,
-        value: CartItem[keyof CartItem],
+        fieldName: FieldName,
+        value: CartItem[FieldName],
     ) {
         const newCart = swallowCopy.copy(this.cart);
         if (!newCart[cartItemName]) throw Error('존재하지 않는 cartItemName 입니다.')
