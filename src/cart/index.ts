@@ -53,7 +53,7 @@ class CartRenderer {
 
     private generateCartItemHTMLElement(cartItemName: string, cartItem: CartItem) {
         const itemElement = document.createElement('li');
-        itemElement.dataset.itemName = cartItemName;
+        this.setElementByItemName(itemElement, cartItemName);
 
         itemElement.textContent = this.generateCartItemTextContent(cartItemName, cartItem);
 
@@ -61,7 +61,7 @@ class CartRenderer {
     }
 
     public rerenderCartItemElement(cartItemName: string, cartItem: CartItem) {
-        const cartItemElement = document.querySelector(`li[data-item-name=${cartItemName}]`)!
+        const cartItemElement = this.getElementByItemName(cartItemName)!;
 
         cartItemElement.textContent = this.generateCartItemTextContent(cartItemName, cartItem);
     }
@@ -73,6 +73,14 @@ class CartRenderer {
 			quantity: ${cartItem.quantity},
 			shipping: ${cartItem.shipping},
 		`
+    }
+
+    private setElementByItemName(element: HTMLElement, itemName: string) {
+        element.dataset.itemName = itemName;
+    }
+
+    private getElementByItemName(itemName: string) {
+        return this.rootElement.querySelector(`[data-item-name=${itemName}]`);
     }
 }
 
