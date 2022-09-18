@@ -1,5 +1,5 @@
 import './style.css';
-import setup from './cart';
+import setup from './cart/Cart';
 import {getCartData} from './cart/data/cart';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
