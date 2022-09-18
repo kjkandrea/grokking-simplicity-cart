@@ -1,12 +1,19 @@
+
+
 const swallowCopy = {
     copy<T extends object>(object: T) {
-        return {...object}
+        return {...object};
+    },
+    withObjectCopy<T extends object>(object: T, modify: (object: T) => void) {
+        const newObject = this.copy(object);
+        modify(newObject);
+        return newObject;
     },
     objectSet<T extends object>
     (object: T, key: keyof T, value: T[keyof T]) {
-        const newObject = this.copy(object);
-        newObject[key] = value;
-        return newObject;
+        return this.withObjectCopy(object, object => {
+            object[key] = value;
+        });
     }
 }
 
