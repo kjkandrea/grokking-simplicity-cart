@@ -8,4 +8,4 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 const cart = setup(document.querySelector<HTMLDivElement>('#cart')!, getCartData());
 cart.setCartItemFieldBy('shoes', 'price', 500);
-cart.setCartItemFieldBy('tShort', 'price', 500);
+cart.setCartItemFieldBy('tShort', 'price', 800);

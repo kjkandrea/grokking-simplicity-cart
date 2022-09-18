@@ -11,7 +11,11 @@ class Cart {
         this.cartRenderer = new CartRenderer(rootElement);
         this.cartTotalRenderer = new CartTotalRenderer(rootElement);
         this.cartRenderer.render(this.cart);
-        this.cartTotalRenderer.render(this.cart);
+        this.cartTotalRenderer.render(this.totalPrice);
+    }
+
+    get totalPrice () {
+        return this.mapCart(cartItem => cartItem.price).reduce((a, b) => a + b);
     }
 
     // 함수 이름에 있는 암묵적 인자 드러내기
@@ -27,11 +31,20 @@ class Cart {
         newCart[cartItemName] = swallowCopy.objectSet(newCart[cartItemName], fieldName, value);
         this.cart = newCart;
 
-        this.rerenderCartItemElement(cartItemName)
+        this.rerenderCartItemElement(cartItemName);
+        if (fieldName === 'price') this.rerenderCartTotalElement();
     }
 
     private rerenderCartItemElement(cartItemName: string) {
         this.cartRenderer.rerenderCartItemElement(cartItemName, this.cart[cartItemName])
+    }
+
+    private rerenderCartTotalElement() {
+        this.cartTotalRenderer.rerender(this.totalPrice);
+    }
+
+    private mapCart<U>(mapper: (cartItem: CartItem) => U) {
+        return Object.values(this.cart).map(mapper);
     }
 }
 
@@ -91,22 +104,27 @@ class CartRenderer {
 
 class CartTotalRenderer {
     private readonly rootElement: HTMLElement;
+    private readonly priceElement: HTMLElement;
 
     constructor(rootElement: HTMLElement) {
         this.rootElement = rootElement;
+        this.priceElement = document.createElement('span');
     }
 
-    public render(cartData: CartData) {
-        this.rootElement.append(this.generateCartTotalHTMLElement(cartData));
+    public render(totalPrice: number) {
+        this.rootElement.append(this.generateCartTotalHTMLElement(totalPrice));
     }
 
-    private generateCartTotalHTMLElement(cartData: CartData) {
+    public rerender(totalPrice: number) {
+        this.priceElement.textContent = String(totalPrice);
+    }
+
+    private generateCartTotalHTMLElement(totalPrice: number) {
         const wrapperElement = document.createElement('div');
+        wrapperElement.textContent = 'total price : ';
+        wrapperElement.append(this.priceElement);
 
-        const cartTotal = Object.values(cartData)
-            .map(cartItem => cartItem.price)
-            .reduce((a, b) => a + b)
-        wrapperElement.textContent = `total price : ${cartTotal}`;
+        this.priceElement.textContent = String(totalPrice);
 
         return wrapperElement;
     }
