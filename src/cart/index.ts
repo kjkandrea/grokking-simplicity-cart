@@ -4,11 +4,14 @@ import swallowCopy from "../utils/swallowCopy";
 class Cart {
     private cart: CartData;
     private cartRenderer: CartRenderer;
+    private cartTotalRenderer: CartTotalRenderer;
 
     constructor(rootElement: HTMLElement, cartData: CartData) {
         this.cart = cartData;
         this.cartRenderer = new CartRenderer(rootElement);
+        this.cartTotalRenderer = new CartTotalRenderer(rootElement);
         this.cartRenderer.render(this.cart);
+        this.cartTotalRenderer.render(this.cart);
     }
 
     // 함수 이름에 있는 암묵적 인자 드러내기
@@ -83,6 +86,29 @@ class CartRenderer {
 
     private getElementByItemName(itemName: string) {
         return this.rootElement.querySelector(`[data-item-name=${itemName}]`);
+    }
+}
+
+class CartTotalRenderer {
+    private readonly rootElement: HTMLElement;
+
+    constructor(rootElement: HTMLElement) {
+        this.rootElement = rootElement;
+    }
+
+    public render(cartData: CartData) {
+        this.rootElement.append(this.generateCartTotalHTMLElement(cartData));
+    }
+
+    private generateCartTotalHTMLElement(cartData: CartData) {
+        const wrapperElement = document.createElement('div');
+
+        const cartTotal = Object.values(cartData)
+            .map(cartItem => cartItem.price)
+            .reduce((a, b) => a + b)
+        wrapperElement.textContent = `total price : ${cartTotal}`;
+
+        return wrapperElement;
     }
 }
 
