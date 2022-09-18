@@ -2,7 +2,7 @@ import {Cart as CartData, CartItem} from './data/cart';
 import swallowCopy from '../utils/swallowCopy';
 import {CartRenderer, CartTotalRenderer} from './index';
 
-class Cart {
+export class Cart {
   private cart: CartData;
   private cartRenderer: CartRenderer;
   private cartTotalRenderer: CartTotalRenderer;
