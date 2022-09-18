@@ -11,7 +11,7 @@ class Cart {
         this.cartRenderer.render(this.cart);
     }
 
-    // 함수 이름에 있는 암묵적 인자 들어내기
+    // 함수 이름에 있는 암묵적 인자 드러내기
     public setCartItemFieldBy
     <FieldName extends keyof CartItem>
     (
