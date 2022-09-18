@@ -50,4 +50,9 @@ setPriceByName(cart, 'shoe', 13);
 function mapCart(mapper) {
     return Object.values(this.cart).map(mapper);
 }
+
+// ...
+function totalPrice () {
+    return this.mapCart(cartItem => cartItem.price).reduce((a, b) => a + b);
+}
 ```
