@@ -43,6 +43,7 @@ class Cart {
         this.cartTotalRenderer.rerender(this.totalPrice);
     }
 
+    // 본문을 콜백으로 바꾸기
     private mapCart<U>(mapper: (cartItem: CartItem) => U) {
         return Object.values(this.cart).map(mapper);
     }
