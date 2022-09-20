@@ -20,6 +20,15 @@ export class Cart {
     return this.pluckCart('price').reduce((a, b) => a + b);
   }
 
+  private nextCallback?: (cart: CartData) => void;
+  public subscribe(callback: (cart: CartData) => void) {
+    this.nextCallback = callback;
+  }
+
+  private next() {
+    this.nextCallback?.(this.cart);
+  }
+
   // 함수 이름에 있는 암묵적 인자 드러내기
   public setCartItemFieldBy<FieldName extends keyof CartItem>(
     cartItemName: string,
@@ -36,6 +45,7 @@ export class Cart {
     );
     this.cart = newCart;
 
+    this.next();
     this.rerenderCartItemElement(cartItemName);
     if (fieldName === 'price') this.rerenderCartTotalElement();
   }

@@ -10,5 +10,8 @@ const cart = setup(
   document.querySelector<HTMLDivElement>('#cart')!,
   getCartData()
 );
+
+cart.subscribe(console.log);
+
 cart.setCartItemFieldBy('shoes', 'price', 500);
 cart.setCartItemFieldBy('tShort', 'price', 800);
