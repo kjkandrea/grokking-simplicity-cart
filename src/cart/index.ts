@@ -69,10 +69,6 @@ export class CartTotalRenderer {
     this.rootElement.append(this.generateCartTotalHTMLElement(totalPrice));
   }
 
-  public rerender(totalPrice: number) {
-    this.priceElement.textContent = String(totalPrice);
-  }
-
   private generateCartTotalHTMLElement(totalPrice: number) {
     const wrapperElement = document.createElement('div');
     wrapperElement.textContent = 'total price : ';

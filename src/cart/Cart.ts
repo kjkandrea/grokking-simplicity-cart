@@ -1,16 +1,12 @@
 import {Cart as CartData, CartItem} from './data/cart';
 import swallowCopy from '../utils/swallowCopy';
-import {CartTotalRenderer} from './index';
 import array from '../utils/array';
 
 export class Cart {
   private cart: CartData;
-  private cartTotalRenderer: CartTotalRenderer;
 
-  constructor(rootElement: HTMLElement, cartData: CartData) {
+  constructor(cartData: CartData) {
     this.cart = cartData;
-    this.cartTotalRenderer = new CartTotalRenderer(rootElement);
-    this.cartTotalRenderer.render(this.totalPrice);
   }
 
   get totalPrice() {
@@ -43,11 +39,6 @@ export class Cart {
     this.cart = newCart;
 
     this.next();
-    if (fieldName === 'price') this.rerenderCartTotalElement();
-  }
-
-  private rerenderCartTotalElement() {
-    this.cartTotalRenderer.rerender(this.totalPrice);
   }
 
   // 본문을 콜백으로 바꾸기
@@ -56,6 +47,6 @@ export class Cart {
   }
 }
 
-export default function setup(rootElement: HTMLElement, cartData: CartData) {
-  return new Cart(rootElement, cartData);
+export default function setup(cartData: CartData) {
+  return new Cart(cartData);
 }
