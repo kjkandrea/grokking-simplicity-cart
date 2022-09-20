@@ -7,18 +7,18 @@ export class Cart extends Subscribe<CartData> {
     super(cartData);
   }
 
-  get cartData() {
-    return this.data;
-  }
-
-  set cartData(cartData: CartData) {
-    this.data = cartData;
-  }
-
   get totalPrice() {
     return this.mapCart(({price, quantity}) => price * quantity).reduce(
       (a, b) => a + b
     );
+  }
+
+  private get cartData() {
+    return this.data;
+  }
+
+  private set cartData(cartData: CartData) {
+    this.data = cartData;
   }
 
   // 함수 이름에 있는 암묵적 인자 드러내기
