@@ -14,19 +14,21 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 const cartData = getCartData();
 
-const cartRootElement = document.getElementById('cart')!;
-const immediateDeliverableCartRootElement = document.getElementById(
-  'immediate-deliverable-cart'
-)!;
-const cartTotalRootElement = document.getElementById('cart-total')!;
+const element = {
+  cart: document.getElementById('cart')!,
+  immediateDeliverableCart: document.getElementById(
+    'immediate-deliverable-cart'
+  )!,
+  cartTotal: document.getElementById('cart-total')!,
+};
 
 const cart = setup(cartData);
 
-const cartRenderer = new CartRenderer(cartRootElement);
+const cartRenderer = new CartRenderer(element.cart);
 const immediateDeliverableCartRenderer = new CartRenderer(
-  immediateDeliverableCartRootElement
+  element.immediateDeliverableCart
 );
-const cartTotalRenderer = new CartTotalRenderer(cartTotalRootElement);
+const cartTotalRenderer = new CartTotalRenderer(element.cartTotal);
 
 cartRenderer.render(cartData);
 cart.subscribe(cartData => {
