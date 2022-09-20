@@ -1,7 +1,8 @@
 import {Cart as CartData, CartItem} from './data/cart';
+import AbstractRenderer from '../abstracts/AbstractRenderer';
 export {Cart} from './Cart';
 
-export class CartRenderer {
+export class CartRenderer implements AbstractRenderer {
   private readonly rootElement: HTMLElement;
 
   constructor(rootElement: HTMLElement) {
@@ -57,7 +58,7 @@ export class CartRenderer {
   }
 }
 
-export class CartTotalRenderer {
+export class CartTotalRenderer implements AbstractRenderer {
   private readonly rootElement: HTMLElement;
   private readonly priceElement: HTMLElement;
 

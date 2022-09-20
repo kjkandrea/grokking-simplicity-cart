@@ -2,6 +2,7 @@ import './style.css';
 import setup from './cart/Cart';
 import {getCartData} from './cart/data/cart';
 import {Cart, CartRenderer, CartTotalRenderer} from './cart';
+import AbstractRenderer from './abstracts/AbstractRenderer';
 
 class CartController {
   public readonly cart: Cart;
@@ -44,8 +45,7 @@ class CartController {
     } as const;
   }
 
-  // TODO: type
-  private linking(renderers: any) {
+  private linking(renderers: {[key: string]: AbstractRenderer}) {
     this.cart.subscribe(cartData => {
       renderers.cart.render(cartData);
       renderers.immediateDeliverableCart.render(cartData);
