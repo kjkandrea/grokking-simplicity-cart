@@ -1,4 +1,5 @@
 import {Cart as CartData, CartItem} from './data/cart';
+export {Cart} from './Cart';
 
 export class CartRenderer {
   private readonly rootElement: HTMLElement;
@@ -66,6 +67,7 @@ export class CartTotalRenderer {
   }
 
   public render(totalPrice: number) {
+    this.rootElement.innerHTML = '';
     this.rootElement.append(this.generateCartTotalHTMLElement(totalPrice));
   }
 

@@ -1,7 +1,7 @@
 import './style.css';
 import setup from './cart/Cart';
 import {getCartData} from './cart/data/cart';
-import {CartRenderer, CartTotalRenderer} from './cart';
+import {Cart, CartRenderer, CartTotalRenderer} from './cart';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <h2>장바구니</h2>
@@ -12,30 +12,46 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <section id="cart-total"></section>
 `;
 
-const cartData = getCartData();
+class CartController {
+  public readonly cart: Cart;
 
-const element = {
-  cart: document.getElementById('cart')!,
-  immediateDeliverableCart: document.getElementById(
-    'immediate-deliverable-cart'
-  )!,
-  cartTotal: document.getElementById('cart-total')!,
-};
+  constructor(cart: Cart) {
+    this.cart = cart;
+    const renderers = this.createRenderers();
+    this.linking(renderers);
+  }
 
-const cart = setup(cartData);
+  private get element() {
+    return {
+      cart: document.getElementById('cart')!,
+      immediateDeliverableCart: document.getElementById(
+        'immediate-deliverable-cart'
+      )!,
+      cartTotal: document.getElementById('cart-total')!,
+    } as const;
+  }
 
-const cartRenderer = new CartRenderer(element.cart);
-const immediateDeliverableCartRenderer = new CartRenderer(
-  element.immediateDeliverableCart
-);
-const cartTotalRenderer = new CartTotalRenderer(element.cartTotal);
+  private createRenderers() {
+    return {
+      cart: new CartRenderer(this.element.cart),
+      immediateDeliverableCart: new CartRenderer(
+        this.element.immediateDeliverableCart
+      ),
+      cartTotal: new CartTotalRenderer(this.element.cartTotal),
+    } as const;
+  }
 
-cartRenderer.render(cartData);
-cart.subscribe(cartData => {
-  cartRenderer.render(cartData);
-  immediateDeliverableCartRenderer.render(cartData);
-  cartTotalRenderer.render(cart.totalPrice);
-});
+  // TODO: type
+  private linking(renderers: any) {
+    this.cart.subscribe(cartData => {
+      renderers.cart.render(cartData);
+      renderers.immediateDeliverableCart.render(cartData);
+      renderers.cartTotal.render(this.cart.totalPrice);
+    });
+  }
+}
 
-cart.setCartItemFieldBy('shoes', 'price', 500);
-cart.setCartItemFieldBy('tShort', 'price', 800);
+const cartController = new CartController(setup(getCartData()));
+
+cartController.cart.setCartItemFieldBy('shoes', 'price', 500);
+cartController.cart.setCartItemFieldBy('tShort', 'price', 800);
