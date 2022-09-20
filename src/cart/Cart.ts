@@ -1,11 +1,18 @@
 import {Cart as CartData, CartItem} from './data/cart';
 import swallowCopy from '../utils/swallowCopy';
+import Subscribe from '../utils/Subscribe';
 
-export class Cart {
-  private cart: CartData;
-
+export class Cart extends Subscribe<CartData> {
   constructor(cartData: CartData) {
-    this.cart = cartData;
+    super(cartData);
+  }
+
+  get cartData() {
+    return this.data;
+  }
+
+  set cartData(cartData: CartData) {
+    this.data = cartData;
   }
 
   get totalPrice() {
@@ -14,22 +21,13 @@ export class Cart {
     );
   }
 
-  private nextCallback?: (cart: CartData) => void;
-  public subscribe(callback: (cart: CartData) => void) {
-    this.nextCallback = callback;
-  }
-
-  private next() {
-    this.nextCallback?.(this.cart);
-  }
-
   // 함수 이름에 있는 암묵적 인자 드러내기
   public setCartItemFieldBy<FieldName extends keyof CartItem>(
     cartItemName: string,
     fieldName: FieldName,
     value: CartItem[FieldName]
   ) {
-    const newCart = swallowCopy.copy(this.cart);
+    const newCart = swallowCopy.copy(this.cartData);
     if (!newCart[cartItemName])
       throw Error('존재하지 않는 cartItemName 입니다.');
     newCart[cartItemName] = swallowCopy.objectSet(
@@ -37,7 +35,7 @@ export class Cart {
       fieldName,
       value
     );
-    this.cart = newCart;
+    this.cartData = newCart;
 
     this.next();
   }
@@ -49,7 +47,7 @@ export class Cart {
 
   // 본문을 콜백으로 바꾸기
   private mapCart<U>(mapper: (cartItem: CartItem) => U) {
-    return Object.values(this.cart).map(mapper);
+    return Object.values(this.cartData).map(mapper);
   }
 }
 
