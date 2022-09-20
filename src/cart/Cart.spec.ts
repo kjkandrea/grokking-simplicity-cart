@@ -1,7 +1,5 @@
 import {Cart} from './Cart';
 
-const DOMTestRootElement = document.createElement('div');
-
 describe('Cart', () => {
   describe('totalPrice 는', () => {
     it('CartData 의 price 의 합계이다.', () => {
@@ -17,9 +15,9 @@ describe('Cart', () => {
           shipping: 'my company',
         },
       };
-      const cart = new Cart(DOMTestRootElement, cartData);
+      const cart = new Cart(cartData);
 
-      expect(cart.totalPrice).toBe(1000 + 1500);
+      expect(cart.totalPrice).toBe(1000 * 1 + 1500 * 2);
     });
   });
 });
