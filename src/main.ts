@@ -9,6 +9,12 @@ interface CartRenderers {
   cartTotal: CartTotalRenderer;
 }
 
+const elementId = {
+  cart: 'cart',
+  immediateDeliverableCart: 'immediate-deliverable-cart',
+  cartTotal: 'cart-total',
+} as const;
+
 class CartController {
   public readonly cart: Cart;
 
@@ -22,21 +28,21 @@ class CartController {
   private mountDOM(rootElement: HTMLElement) {
     rootElement.innerHTML = `
       <h2>장바구니</h2>
-      <section id="cart"></section>
+      <section id="${elementId.cart}"></section>
       <h2>즉시배송가능 상품</h2>
-      <section id="immediate-deliverable-cart"></section>
+      <section id="${elementId.immediateDeliverableCart}"></section>
       <h2>총 결제 금액</h2>
-      <section id="cart-total"></section>
+      <section id="${elementId.cartTotal}"></section>
     `;
   }
 
   private get element() {
     return {
-      cart: document.getElementById('cart')!,
+      cart: document.getElementById(elementId.cart)!,
       immediateDeliverableCart: document.getElementById(
-        'immediate-deliverable-cart'
+        elementId.immediateDeliverableCart
       )!,
-      cartTotal: document.getElementById('cart-total')!,
+      cartTotal: document.getElementById(elementId.cartTotal)!,
     } as const;
   }
 
