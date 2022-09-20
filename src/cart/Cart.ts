@@ -1,6 +1,5 @@
 import {Cart as CartData, CartItem} from './data/cart';
 import swallowCopy from '../utils/swallowCopy';
-import array from '../utils/array';
 
 export class Cart {
   private cart: CartData;
@@ -10,7 +9,9 @@ export class Cart {
   }
 
   get totalPrice() {
-    return this.pluckCart('price').reduce((a, b) => a + b);
+    return this.mapCart(({price, quantity}) => price * quantity).reduce(
+      (a, b) => a + b
+    );
   }
 
   private nextCallback?: (cart: CartData) => void;
@@ -41,9 +42,14 @@ export class Cart {
     this.next();
   }
 
+  // NOTE : pluck 기능 구현. 후에 사용할 것으로 예상되어 주석처리 해 둠
+  // private pluckCart<K extends keyof CartItem>(fieldName: K) {
+  //   return array.pluck<CartItem, K>(Object.values(this.cart), fieldName);
+  // }
+
   // 본문을 콜백으로 바꾸기
-  private pluckCart<K extends keyof CartItem>(fieldName: K) {
-    return array.pluck<CartItem, K>(Object.values(this.cart), fieldName);
+  private mapCart<U>(mapper: (cartItem: CartItem) => U) {
+    return Object.values(this.cart).map(mapper);
   }
 }
 
