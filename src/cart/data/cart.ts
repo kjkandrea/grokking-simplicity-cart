@@ -2,7 +2,7 @@ export interface CartItem {
   price: number;
   quantity: number;
   shipping: string;
-  immediateDeliveryAvailable?: boolean;
+  immediateDeliveryAvailable?: true;
 }
 
 export interface Cart {
@@ -12,6 +12,12 @@ export interface Cart {
 export const getCartData = (): Cart => ({
   shoes: {
     price: 1000,
+    quantity: 1,
+    shipping: 'seoul',
+    immediateDeliveryAvailable: true,
+  },
+  hood: {
+    price: 800,
     quantity: 1,
     shipping: 'seoul',
     immediateDeliveryAvailable: true,
