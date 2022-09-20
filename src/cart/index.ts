@@ -8,6 +8,7 @@ export class CartRenderer {
   }
 
   public render(cartData: CartData) {
+    this.rootElement.innerHTML = '';
     this.rootElement.append(this.generateCartHTMLElement(cartData));
   }
 
@@ -38,15 +39,6 @@ export class CartRenderer {
     return itemElement;
   }
 
-  public rerenderCartItemElement(cartItemName: string, cartItem: CartItem) {
-    const cartItemElement = this.getElementByItemName(cartItemName)!;
-
-    cartItemElement.textContent = this.generateCartItemTextContent(
-      cartItemName,
-      cartItem
-    );
-  }
-
   private generateCartItemTextContent(
     cartItemName: string,
     cartItem: CartItem
@@ -61,10 +53,6 @@ export class CartRenderer {
 
   private setElementByItemName(element: HTMLElement, itemName: string) {
     element.dataset.itemName = itemName;
-  }
-
-  private getElementByItemName(itemName: string) {
-    return this.rootElement.querySelector(`[data-item-name=${itemName}]`);
   }
 }
 

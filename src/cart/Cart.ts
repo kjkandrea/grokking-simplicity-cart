@@ -1,18 +1,15 @@
 import {Cart as CartData, CartItem} from './data/cart';
 import swallowCopy from '../utils/swallowCopy';
-import {CartRenderer, CartTotalRenderer} from './index';
+import {CartTotalRenderer} from './index';
 import array from '../utils/array';
 
 export class Cart {
   private cart: CartData;
-  private cartRenderer: CartRenderer;
   private cartTotalRenderer: CartTotalRenderer;
 
   constructor(rootElement: HTMLElement, cartData: CartData) {
     this.cart = cartData;
-    this.cartRenderer = new CartRenderer(rootElement);
     this.cartTotalRenderer = new CartTotalRenderer(rootElement);
-    this.cartRenderer.render(this.cart);
     this.cartTotalRenderer.render(this.totalPrice);
   }
 
@@ -46,15 +43,7 @@ export class Cart {
     this.cart = newCart;
 
     this.next();
-    this.rerenderCartItemElement(cartItemName);
     if (fieldName === 'price') this.rerenderCartTotalElement();
-  }
-
-  private rerenderCartItemElement(cartItemName: string) {
-    this.cartRenderer.rerenderCartItemElement(
-      cartItemName,
-      this.cart[cartItemName]
-    );
   }
 
   private rerenderCartTotalElement() {
