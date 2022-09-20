@@ -2,7 +2,12 @@ import './style.css';
 import setup from './cart/Cart';
 import {getCartData} from './cart/data/cart';
 import {Cart, CartRenderer, CartTotalRenderer} from './cart';
-import AbstractRenderer from './abstracts/AbstractRenderer';
+
+interface CartRenderers {
+  cart: CartRenderer;
+  immediateDeliverableCart: CartRenderer;
+  cartTotal: CartTotalRenderer;
+}
 
 class CartController {
   public readonly cart: Cart;
@@ -35,17 +40,17 @@ class CartController {
     } as const;
   }
 
-  private createRenderers() {
+  private createRenderers(): CartRenderers {
     return {
       cart: new CartRenderer(this.element.cart),
       immediateDeliverableCart: new CartRenderer(
         this.element.immediateDeliverableCart
       ),
       cartTotal: new CartTotalRenderer(this.element.cartTotal),
-    } as const;
+    };
   }
 
-  private linking(renderers: {[key: string]: AbstractRenderer}) {
+  private linking(renderers: CartRenderers) {
     this.cart.subscribe(cartData => {
       renderers.cart.render(cartData);
       renderers.immediateDeliverableCart.render(cartData);
