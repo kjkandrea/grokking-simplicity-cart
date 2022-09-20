@@ -13,6 +13,15 @@ export class Cart extends Subscribe<CartData> {
     );
   }
 
+  get immediateDeliverableCart() {
+    const immediateDeliverableCartItemEntries = Object.entries(
+      this.cartData
+    ).filter(([_, cartItem]) => cartItem.immediateDeliverable);
+
+    // eslint-disable-next-line node/no-unsupported-features/es-builtins
+    return Object.fromEntries(immediateDeliverableCartItemEntries);
+  }
+
   private get cartData() {
     return this.data;
   }

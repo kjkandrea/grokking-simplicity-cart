@@ -53,7 +53,9 @@ class CartController {
   private linking(renderers: CartRenderers) {
     this.cart.subscribe(cartData => {
       renderers.cart.render(cartData);
-      renderers.immediateDeliverableCart.render(cartData);
+      renderers.immediateDeliverableCart.render(
+        this.cart.immediateDeliverableCart
+      );
       renderers.cartTotal.render(this.cart.totalPrice);
     });
   }
