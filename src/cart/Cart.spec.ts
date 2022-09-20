@@ -20,4 +20,7 @@ describe('Cart', () => {
       expect(cart.totalPrice).toBe(1000 * 1 + 1500 * 2);
     });
   });
+
+  // TODO: immediateDeliverable 테스트 작성
+  describe('immediateDeliverable 는', () => {});
 });
