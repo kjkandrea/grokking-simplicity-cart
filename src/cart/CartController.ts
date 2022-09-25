@@ -25,6 +25,7 @@ export class CartController {
   }
 
   private mountDOM(rootElement: HTMLElement) {
+    rootElement.innerHTML = '';
     rootElement.insertAdjacentHTML(
       'beforeend',
       `

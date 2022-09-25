@@ -1,17 +1,24 @@
 import {Router} from './Router';
 import {NavigationRenderer} from './views/NavigationRenderer';
+import {Subscriber} from '../utils/Subscribe';
+import {RouteId, Routes} from './data/routes';
 
 const navigationId = 'navigation';
 
-export class NavigationController {
-  private router: Router;
+export class NavigationController<RoutesType extends Routes> {
+  private router: Router<RoutesType>;
 
-  constructor(router: Router, rootElement: HTMLElement) {
-    this.router = router;
+  constructor(
+    routes: RoutesType,
+    rootElement: HTMLElement,
+    subscriber: Subscriber<RouteId<RoutesType>>
+  ) {
+    this.router = new Router(routes, 'cart'); // 이상함..
     this.mountDOM(rootElement);
     const renderer = this.createRenderer(this.navigationElement);
-    renderer.render(router.routes);
-    router.subscribe(console.log);
+    renderer.render(this.router.routes);
+    this.router.subscribe(subscriber);
+    this.router.move('cart');
   }
 
   private mountDOM(rootElement: HTMLElement) {
@@ -28,8 +35,6 @@ export class NavigationController {
   }
 
   createRenderer(rootElement: HTMLElement) {
-    return new NavigationRenderer(rootElement, route =>
-      this.router.move(route)
-    );
+    return new NavigationRenderer(rootElement, id => this.router.move(id));
   }
 }

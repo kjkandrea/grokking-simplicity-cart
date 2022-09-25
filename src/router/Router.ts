@@ -1,24 +1,33 @@
-import {Routes} from './data/routes';
+import {Routes, RouteId} from './data/routes';
 import Subscribe from '../utils/Subscribe';
 
-type RouteId = keyof Routes;
+export class Router<RoutesType extends Routes> extends Subscribe<
+  RouteId<RoutesType>
+> {
+  public readonly routes: RoutesType;
 
-export class Router extends Subscribe<RouteId> {
-  public readonly routes: Routes;
-
-  constructor(routes: Routes) {
-    super('cart'); // 이상함
+  constructor(routes: RoutesType, currentId: RouteId<RoutesType>) {
+    super(currentId);
     this.routes = routes;
+    this.bindHistoryEvent();
   }
 
-  public move(id: RouteId) {
+  public move(id: RouteId<RoutesType>) {
     history.pushState(null, '', this.routes[id].path);
     this.currentId = id;
 
     this.next();
   }
 
-  private set currentId(id: RouteId) {
+  private set currentId(id: RouteId<RoutesType>) {
     this.data = id;
+  }
+
+  private bindHistoryEvent() {
+    window.addEventListener('popstate', () => {
+      // WARN: 버그 가능성 200%
+      const id = location.pathname.replace('/', '');
+      this.move(id);
+    });
   }
 }

@@ -1,3 +1,5 @@
+export type Subscriber<Data = any> = (data: Data) => void;
+
 export default class Subscribe<Data> {
   protected data: Data;
 
@@ -5,8 +7,8 @@ export default class Subscribe<Data> {
     this.data = data;
   }
 
-  private nextCallback?: (data: Data) => void;
-  public subscribe(callback: (data: Data) => void) {
+  private nextCallback?: Subscriber<Data>;
+  public subscribe(callback: Subscriber<Data>) {
     this.nextCallback = callback;
   }
 
