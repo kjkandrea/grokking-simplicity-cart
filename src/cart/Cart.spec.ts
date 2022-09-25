@@ -22,7 +22,6 @@ describe('Cart', () => {
     });
   });
 
-  // TODO: immediateDeliverable 테스트 작성
   describe('immediateDeliverable 는', () => {
     it('즉시배송 가능 : true 인 상품들만 반환한다.', () => {
       const cartData: CartData = {
