@@ -44,10 +44,23 @@ describe('utils/object', () => {
       expect(targetValue).toBe(100);
     });
 
+    it('modify 콜백 인자를 통해 값을 업데이트 한다.', () => {
+      const newBirds = object.nestedUpdate(birds, ['hawk', 'speed'], speedUp);
+
+      expect(newBirds.hawk.speed).toBe(110);
+    });
+
     it('keys 를 통한 중첩 객체 탐색에 실패하면 에러를 반환한다.', () => {
       expect(() =>
         object.nestedUpdate(birds, ['dog', 'speed'], speedUp)
       ).toThrowError();
+    });
+
+    it('인자로 전달받은 원본 객체의 값을 변경하지 않는다.', () => {
+      const newBirds = object.nestedUpdate(birds, ['hawk', 'speed'], speedUp);
+
+      expect(newBirds.hawk.speed).toBe(100);
+      expect(birds !== newBirds).toBe(true);
     });
   });
 });
