@@ -45,6 +45,8 @@ export class Cart extends Subscribe<CartData> {
     this.next();
   }
 
+  // 기억할 것이 너무 많을 때에는, (가령 option 을 찾으려면 3층 탕색이 필요함)
+  // 추상화의 벽을 통해 세부사항을 숩긴다.
   public setCartItemOptionBy<OptionName extends string>(
     cartItemName: string,
     optionName: OptionName,
@@ -52,7 +54,7 @@ export class Cart extends Subscribe<CartData> {
   ) {
     this.cartData = object.nestedUpdate(
       this.cartData,
-      [cartItemName, 'options', optionName],
+      [cartItemName, 'options', optionName], // 옵션을 변경하려면 options 를 탐색해야 한단건 세부사항이다.
       () => optionValue
     );
 
