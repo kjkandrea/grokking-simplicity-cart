@@ -8,7 +8,7 @@ function copy<T extends object>(object: T) {
   return {...object};
 }
 
-const swallowCopy = {
+const object = {
   update<T extends DataObject>(
     object: T,
     key: keyof T,
@@ -47,4 +47,4 @@ const swallowCopy = {
   },
 };
 
-export default swallowCopy;
+export default object;

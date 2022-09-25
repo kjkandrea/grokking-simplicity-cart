@@ -1,5 +1,5 @@
 import {Cart as CartData, CartItem, Options} from './data/cart';
-import swallowCopy from '../utils/swallowCopy';
+import object from '../utils/object';
 import Subscribe from '../utils/Subscribe';
 
 export class Cart extends Subscribe<CartData> {
@@ -36,7 +36,7 @@ export class Cart extends Subscribe<CartData> {
     fieldName: FieldName,
     value: CartItem[FieldName]
   ) {
-    this.cartData = swallowCopy.nestedUpdate(
+    this.cartData = object.nestedUpdate(
       this.cartData,
       [cartItemName, fieldName],
       () => value
@@ -50,7 +50,7 @@ export class Cart extends Subscribe<CartData> {
     optionName: OptionName,
     optionValue: Options[OptionName]
   ) {
-    this.cartData = swallowCopy.nestedUpdate(
+    this.cartData = object.nestedUpdate(
       this.cartData,
       [cartItemName, 'options', optionName],
       () => optionValue
