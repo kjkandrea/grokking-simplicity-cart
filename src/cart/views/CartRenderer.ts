@@ -38,12 +38,18 @@ export class CartRenderer implements AbstractRenderer {
   }
 
   private generateCartItemContent(cartItemName: string, cartItem: CartItem) {
-    return `
-			name: ${cartItemName},
-			price: ${cartItem.price},
-			quantity: ${cartItem.quantity},
-			shipping: ${cartItem.shipping},
-			options: ${
+    const wrapperElement = document.createElement('dl');
+    const template = `
+			<dt>name</dt>
+      <dd>${cartItemName}</dd>
+			<dt>price</dt>
+      <dd>${cartItem.price}</dd>
+      <dt>quantity</dt>
+      <dd>${cartItem.quantity}</dd>
+      <dt>shipping</dt>
+      <dd>${cartItem.shipping}</dd>
+      <dt>options</dt>
+      <dd>${
         cartItem?.options
           ? Object.entries(cartItem.options)
               .map(
@@ -51,8 +57,11 @@ export class CartRenderer implements AbstractRenderer {
               )
               .join(' | ')
           : '없음'
-      }
+      }</dd>
 		`;
+
+    wrapperElement.insertAdjacentHTML('beforeend', template);
+    return wrapperElement;
   }
 
   private setElementByItemName(element: HTMLElement, itemName: string) {
