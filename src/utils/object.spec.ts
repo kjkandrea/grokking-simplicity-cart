@@ -43,5 +43,11 @@ describe('utils/object', () => {
 
       expect(targetValue).toBe(100);
     });
+
+    it('keys 를 통한 중첩 객체 탐색에 실패하면 에러를 반환한다.', () => {
+      expect(() =>
+        object.nestedUpdate(birds, ['dog', 'speed'], speedUp)
+      ).toThrowError();
+    });
   });
 });
