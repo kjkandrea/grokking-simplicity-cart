@@ -2,12 +2,14 @@ import object from './object';
 
 describe('utils/object', () => {
   describe('object.update 는', () => {
+    const increment = (count: number) => count + 1;
+
     it('modify 콜백 인자를 통해 값을 업데이트 한다.', () => {
       const birdCount = {
         hawk: 5,
       };
 
-      const newBirdCount = object.update(birdCount, 'hawk', count => count + 1);
+      const newBirdCount = object.update(birdCount, 'hawk', increment);
       expect(newBirdCount.hawk).toBe(6);
     });
 
@@ -17,7 +19,7 @@ describe('utils/object', () => {
       };
 
       expect(() =>
-        object.update(birdCount, 'dog' as any, count => count + 1)
+        object.update(birdCount, 'dog' as any, increment)
       ).toThrowError();
     });
 
@@ -25,7 +27,7 @@ describe('utils/object', () => {
       const birdCount = {
         hawk: 5,
       };
-      const newBirdCount = object.update(birdCount, 'hawk', count => count + 1);
+      const newBirdCount = object.update(birdCount, 'hawk', increment);
 
       expect(birdCount.hawk).toBe(5);
       expect(birdCount !== newBirdCount).toBe(true);
