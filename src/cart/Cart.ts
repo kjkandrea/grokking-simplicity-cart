@@ -1,4 +1,4 @@
-import {Cart as CartData, CartItem} from './data/cart';
+import {Cart as CartData, CartItem, Options} from './data/cart';
 import swallowCopy from '../utils/swallowCopy';
 import Subscribe from '../utils/Subscribe';
 
@@ -36,15 +36,25 @@ export class Cart extends Subscribe<CartData> {
     fieldName: FieldName,
     value: CartItem[FieldName]
   ) {
-    const newCart = swallowCopy.copy(this.cartData);
-    if (!newCart[cartItemName])
-      throw Error('존재하지 않는 cartItemName 입니다.');
-    newCart[cartItemName] = swallowCopy.objectSet(
-      newCart[cartItemName],
-      fieldName,
-      value
+    this.cartData = swallowCopy.nestedUpdate(
+      this.cartData,
+      [cartItemName, fieldName],
+      () => value
     );
-    this.cartData = newCart;
+
+    this.next();
+  }
+
+  public setCartItemOptionBy<OptionName extends string>(
+    cartItemName: string,
+    optionName: OptionName,
+    optionValue: Options[OptionName]
+  ) {
+    this.cartData = swallowCopy.nestedUpdate(
+      this.cartData,
+      [cartItemName, 'options', optionName],
+      () => optionValue
+    );
 
     this.next();
   }

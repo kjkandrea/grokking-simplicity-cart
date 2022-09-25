@@ -75,3 +75,4 @@ const cartController = new CartController(
 
 cartController.cart.setCartItemFieldBy('shoes', 'price', 500);
 cartController.cart.setCartItemFieldBy('tShort', 'price', 800);
+cartController.cart.setCartItemOptionBy('tShort', 'size', 5);
