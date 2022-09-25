@@ -1,4 +1,5 @@
 import './style.css';
+import './cart.css';
 import setup from './cart/Cart';
 import {getCartData} from './cart/data/cart';
 import {Cart, CartRenderer, CartTotalRenderer} from './cart';
