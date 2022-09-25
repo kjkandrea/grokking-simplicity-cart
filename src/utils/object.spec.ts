@@ -7,6 +7,16 @@ describe('utils/object', () => {
     };
     const increment = (count: number) => count + 1;
 
+    it('key 를 통해 변경 대상 값을 찾는다.', () => {
+      let targetValue;
+      object.update(birdCount, 'hawk', hawk => {
+        targetValue = hawk;
+        return increment(hawk);
+      });
+
+      expect(targetValue).toBe(5);
+    });
+
     it('modify 콜백 인자를 통해 값을 업데이트 한다.', () => {
       const newBirdCount = object.update(birdCount, 'hawk', increment);
       expect(newBirdCount.hawk).toBe(6);
