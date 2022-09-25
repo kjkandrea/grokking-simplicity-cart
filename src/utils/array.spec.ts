@@ -1,5 +1,4 @@
 import array from './array';
-import object from './object';
 
 describe('utils/array', () => {
   describe('array.pluck 는', () => {
