@@ -32,23 +32,26 @@ export class CartRenderer implements AbstractRenderer {
     const itemElement = document.createElement('li');
     this.setElementByItemName(itemElement, cartItemName);
 
-    itemElement.textContent = this.generateCartItemTextContent(
-      cartItemName,
-      cartItem
-    );
+    itemElement.append(this.generateCartItemContent(cartItemName, cartItem));
 
     return itemElement;
   }
 
-  private generateCartItemTextContent(
-    cartItemName: string,
-    cartItem: CartItem
-  ) {
+  private generateCartItemContent(cartItemName: string, cartItem: CartItem) {
     return `
 			name: ${cartItemName},
 			price: ${cartItem.price},
 			quantity: ${cartItem.quantity},
 			shipping: ${cartItem.shipping},
+			options: ${
+        cartItem?.options
+          ? Object.entries(cartItem.options)
+              .map(
+                ([optionName, optionValue]) => `${optionName} : ${optionValue}`
+              )
+              .join(' | ')
+          : '없음'
+      }
 		`;
   }
 
