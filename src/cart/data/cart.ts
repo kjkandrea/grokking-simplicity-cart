@@ -3,9 +3,11 @@ export interface CartItem {
   quantity: number;
   shipping: string;
   immediateDeliverable?: true;
-  options?: {
-    [optionName: string]: string | number;
-  };
+  options?: Options;
+}
+
+export interface Options {
+  [optionName: string]: string | number;
 }
 
 export interface Cart {

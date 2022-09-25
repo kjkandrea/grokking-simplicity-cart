@@ -1,5 +1,5 @@
 import AbstractRenderer from '../../abstracts/AbstractRenderer';
-import {Cart as CartData, CartItem} from '../data/cart';
+import {Cart as CartData, CartItem, Options} from '../data/cart';
 
 export class CartRenderer implements AbstractRenderer {
   private readonly rootElement: HTMLElement;
@@ -32,36 +32,45 @@ export class CartRenderer implements AbstractRenderer {
     const itemElement = document.createElement('li');
     this.setElementByItemName(itemElement, cartItemName);
 
-    itemElement.append(this.generateCartItemContent(cartItemName, cartItem));
+    itemElement.append(this.generateCartItemElement(cartItemName, cartItem));
 
     return itemElement;
   }
 
-  private generateCartItemContent(cartItemName: string, cartItem: CartItem) {
-    const wrapperElement = document.createElement('dl');
+  private generateCartItemElement(cartItemName: string, cartItem: CartItem) {
+    const wrapperElement = document.createElement('div');
     const template = `
-			<dt>name</dt>
-      <dd>${cartItemName}</dd>
-			<dt>price</dt>
-      <dd>${cartItem.price}</dd>
-      <dt>quantity</dt>
-      <dd>${cartItem.quantity}</dd>
-      <dt>shipping</dt>
-      <dd>${cartItem.shipping}</dd>
-      <dt>options</dt>
-      <dd>${
+      ${this.generateFieldTemplate('name', cartItemName)}
+      ${this.generateFieldTemplate('price', cartItem.price)}
+      ${this.generateFieldTemplate('quantity', cartItem.quantity)}
+      ${this.generateFieldTemplate('shipping', cartItem.shipping)}
+      ${this.generateFieldTemplate(
+        'options',
         cartItem?.options
-          ? Object.entries(cartItem.options)
-              .map(
-                ([optionName, optionValue]) => `${optionName} : ${optionValue}`
-              )
-              .join(' | ')
+          ? this.generateCartItemOptionTemplate(cartItem.options)
           : '없음'
-      }</dd>
+      )}
 		`;
 
     wrapperElement.insertAdjacentHTML('beforeend', template);
     return wrapperElement;
+  }
+
+  private generateFieldTemplate(fieldName: string, value: string | number) {
+    return `
+      <dl>
+        <dt>${fieldName}</dt>
+        <dd>${value}</dd>
+      </dl>
+    `;
+  }
+
+  private generateCartItemOptionTemplate(options: Options) {
+    return Object.entries(options)
+      .map(([optionName, optionValue]) =>
+        this.generateFieldTemplate(optionName, optionValue)
+      )
+      .join('');
   }
 
   private setElementByItemName(element: HTMLElement, itemName: string) {

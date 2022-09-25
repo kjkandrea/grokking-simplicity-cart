@@ -1,3 +1,48 @@
-#cart {
-  background: red;
+$border-color: #e1e1e1;
+
+.cart {
+  // reset
+  ul {
+    list-style: none;
+  }
+
+  ul, li, dl, dd {
+    margin: 0;
+    padding: 0;
+  }
+
+  // border
+  ul, li {
+    border-style: solid;
+    border-color: $border-color;
+    border-width: 0;
+  }
+
+  ul {
+    border-top-width: 1px;
+    border-left-width: 1px;
+
+    li {
+      border-bottom-width: 1px;
+      border-right-width: 1px;
+    }
+  }
+
+  // box model
+  li {
+    padding: 1rem;
+  }
+  dl {
+    display: flex;
+  }
+
+  // decoration
+  dt {
+    font-weight: 700;
+
+    &::after {
+      content: ':';
+      margin: 0 0.5em;
+    }
+  }
 }
