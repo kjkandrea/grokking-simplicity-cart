@@ -27,15 +27,14 @@ describe('utils/object', () => {
   });
 
   describe('object.nestedUpdate 는', () => {
+    const birds = {
+      hawk: {
+        speed: 100,
+      },
+    };
     const speedUp = (speed: number) => speed + 10;
 
     it('keys 를 통해 변경 대상 값을 찾는다.', () => {
-      const birds = {
-        hawk: {
-          speed: 100,
-        },
-      };
-
       let targetValue;
       object.nestedUpdate(birds, ['hawk', 'speed'], speed => {
         targetValue = speed;
