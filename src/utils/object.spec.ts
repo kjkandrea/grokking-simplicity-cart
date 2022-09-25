@@ -59,7 +59,7 @@ describe('utils/object', () => {
     it('인자로 전달받은 원본 객체의 값을 변경하지 않는다.', () => {
       const newBirds = object.nestedUpdate(birds, ['hawk', 'speed'], speedUp);
 
-      expect(newBirds.hawk.speed).toBe(100);
+      expect(birds.hawk.speed).toBe(100);
       expect(birds !== newBirds).toBe(true);
     });
   });
