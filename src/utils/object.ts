@@ -37,7 +37,7 @@ const object = {
   nestedUpdate<T extends DataObject>(
     object: T,
     keys: string[],
-    modify: (object: T) => any
+    modify: (object: any) => any
   ): T {
     if (keys.length === 0) return modify(object);
     const [currentKey] = keys;

@@ -31,4 +31,24 @@ describe('utils/object', () => {
       expect(birdCount !== newBirdCount).toBe(true);
     });
   });
+
+  describe('object.nestedUpdate 는', () => {
+    const speedUp = (speed: number) => speed + 10;
+
+    it('keys 를 통해 변경 대상 값을 찾는다.', () => {
+      const birds = {
+        hawk: {
+          speed: 100,
+        },
+      };
+
+      let targetValue;
+      object.nestedUpdate(birds, ['hawk', 'speed'], speed => {
+        targetValue = speed;
+        return speedUp(speed);
+      });
+
+      expect(targetValue).toBe(100);
+    });
+  });
 });
