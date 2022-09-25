@@ -25,14 +25,17 @@ export class CartController {
   }
 
   private mountDOM(rootElement: HTMLElement) {
-    rootElement.innerHTML = `
+    rootElement.insertAdjacentHTML(
+      'beforeend',
+      `
       <h2>장바구니</h2>
       <section id="${elementId.cart}" class="cart"></section>
       <h2>즉시배송가능 상품</h2>
       <section id="${elementId.immediateDeliverableCart}" class="cart"></section>
       <h2>총 결제 금액</h2>
       <section id="${elementId.cartTotal}"></section>
-    `;
+    `
+    );
   }
 
   private get element() {
