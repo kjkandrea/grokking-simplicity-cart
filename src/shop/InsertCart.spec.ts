@@ -42,7 +42,7 @@ describe('InsertCart', () => {
         });
       });
 
-      const COUNT = 10;
+      const COUNT = 100;
       it(`${COUNT}번 테스트해도 결과는 동일하다.`, done => {
         const rightTotals = Array.from({length: COUNT}, () => 14);
 
