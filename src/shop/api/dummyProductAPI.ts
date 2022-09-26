@@ -10,7 +10,7 @@ const getCost = (miniCartProducts: MiniCartProduct[]) => {
 export const cost_ajax = (
   cart: MiniCartProduct[],
   callback: (cost: number) => void,
-  testTime = 300
+  testTime = 5
 ) => {
   const cost = getCost(cart);
   setTimeout(() => callback(cost), testTime);
