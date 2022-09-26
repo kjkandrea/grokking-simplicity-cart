@@ -1,13 +1,11 @@
+import {Options} from '../../shop/data/products';
+
 export interface CartItem {
   price: number;
   quantity: number;
   shipping: string;
   immediateDeliverable?: true;
   options?: Options;
-}
-
-export interface Options {
-  [optionName: string]: string | number;
 }
 
 export interface Cart {

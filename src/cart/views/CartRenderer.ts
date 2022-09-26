@@ -1,5 +1,6 @@
 import AbstractRenderer from '../../abstracts/AbstractRenderer';
-import {Cart as CartData, CartItem, Options} from '../data/cart';
+import {Cart as CartData, CartItem} from '../data/cart';
+import {Options} from '../../shop/data/products';
 
 export class CartRenderer implements AbstractRenderer {
   private readonly rootElement: HTMLElement;
