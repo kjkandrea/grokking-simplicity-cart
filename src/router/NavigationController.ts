@@ -16,6 +16,7 @@ export class NavigationController<RoutesType extends Routes> {
     this.router = new Router(routes, 'shop'); // 이상함..
     this.mountDOM(rootElement);
     const renderer = this.createRenderer(this.navigationElement);
+    renderer.on('@click:navigation', id => this.router.move(id));
     renderer.render(this.router.routes);
     this.router.subscribe(subscriber);
     this.router.move('shop');
@@ -35,6 +36,6 @@ export class NavigationController<RoutesType extends Routes> {
   }
 
   createRenderer(rootElement: HTMLElement) {
-    return new NavigationRenderer(rootElement, id => this.router.move(id));
+    return new NavigationRenderer(rootElement);
   }
 }

@@ -1,16 +1,13 @@
 import {Routes} from '../data/routes';
 import AbstractRenderer from '../../abstracts/AbstractRenderer';
+import {OnEmit} from '../../utils/OnEmit';
 
-type RouteId = keyof Routes;
-type Listener = (id: RouteId) => void;
-
-export class NavigationRenderer implements AbstractRenderer {
+export class NavigationRenderer extends OnEmit implements AbstractRenderer {
   private readonly rootElement: HTMLElement;
-  private readonly listener: Listener;
 
-  constructor(rootElement: HTMLElement, listener: Listener) {
+  constructor(rootElement: HTMLElement) {
+    super();
     this.rootElement = rootElement;
-    this.listener = listener;
   }
 
   public render(routes: Routes) {
@@ -44,7 +41,7 @@ export class NavigationRenderer implements AbstractRenderer {
     anchorElement.addEventListener('click', event => {
       event.preventDefault();
 
-      this.listener(id);
+      this.emit('@click:navigation', id);
     });
   }
 }
