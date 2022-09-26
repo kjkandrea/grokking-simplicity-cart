@@ -56,3 +56,24 @@ function totalPrice () {
     return this.mapCart(cartItem => cartItem.price).reduce((a, b) => a + b);
 }
 ```
+
+## 타임라인 격리하기
+
+타임라인 자원을 안전하게 공유하기 위해 동시성 기본형(concurrency primitive) 이라는 재사용 가능한 코드를 만드는 방법에 대해 배웁니다.
+
+### `calc_cart_total`
+
+```ts
+function calc_cart_total(update_total_dom: (total: number) => void) {
+    const cart = [...this.miniCartProducts];
+
+    this.total = 0;
+    cost_ajax(cart, cost => {
+        this.total = cost;
+        shipping_ajax(cart, shipping => {
+            this.total += shipping;
+            update_total_dom(this.total);
+        });
+    })
+}
+```
