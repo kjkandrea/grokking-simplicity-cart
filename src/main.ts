@@ -4,7 +4,7 @@ import setup from './cart/Cart';
 import {getCartData} from './cart/data/cart';
 import {CartController} from './cart';
 import {NavigationController, routes} from './router';
-import {InsertCartController} from './shop/InsertCartController';
+import {InsertCartController} from './shop';
 
 const appElement = document.getElementById('app')!;
 const routeElement = document.createElement('nav');
