@@ -1,5 +1,8 @@
 import {MiniCartRenderer} from './views/MiniCartRenderer';
 import {ProductsRenderer} from './views/ProductsRenderer';
+import Subscribe from '../utils/Subscribe';
+import {CartItem} from '../cart/data/cart';
+import {Product} from './data/products';
 
 interface InsertCartRenderers {
   miniCart: MiniCartRenderer;
@@ -11,11 +14,16 @@ const elementId = {
   products: 'products',
 } as const;
 
-export class InsertCartController {
-  constructor(rootElement: HTMLElement) {
+export class InsertCartController extends Subscribe<CartItem[]> {
+  constructor(
+    cartItems: CartItem[],
+    products: Product[],
+    rootElement: HTMLElement
+  ) {
+    super(cartItems);
     this.mountDOM(rootElement);
     const renderers = this.createRenderers();
-    console.log(renderers);
+    renderers.products.render(products);
   }
 
   mountDOM(rootElement: HTMLElement) {

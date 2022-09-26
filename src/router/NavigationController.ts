@@ -13,12 +13,12 @@ export class NavigationController<RoutesType extends Routes> {
     rootElement: HTMLElement,
     subscriber: Subscriber<RouteId<RoutesType>>
   ) {
-    this.router = new Router(routes, 'cart'); // 이상함..
+    this.router = new Router(routes, 'shop'); // 이상함..
     this.mountDOM(rootElement);
     const renderer = this.createRenderer(this.navigationElement);
     renderer.render(this.router.routes);
     this.router.subscribe(subscriber);
-    this.router.move('cart');
+    this.router.move('shop');
   }
 
   private mountDOM(rootElement: HTMLElement) {
