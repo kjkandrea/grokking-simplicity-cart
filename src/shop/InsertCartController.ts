@@ -24,6 +24,7 @@ export class InsertCartController extends Subscribe<CartItem[]> {
     this.mountDOM(rootElement);
     const renderers = this.createRenderers();
     renderers.products.render(products);
+    renderers.products.on('@click:buyNow', console.log);
   }
 
   mountDOM(rootElement: HTMLElement) {

@@ -1,7 +1,8 @@
 type EventName = 'click';
 type EventId = string;
+type EventArgument = any;
 type SubscribeKey = `@${EventName}:${EventId}`;
-type SubscribeFunction = (...arg: any) => void;
+type SubscribeFunction = (arg: EventArgument) => void;
 type SubscriberMap = Map<SubscribeKey, SubscribeFunction[]>;
 
 export class OnEmit {
@@ -21,7 +22,7 @@ export class OnEmit {
     }
   }
 
-  protected emit(subscribeKey: SubscribeKey, ...arg: any) {
+  protected emit(subscribeKey: SubscribeKey, arg: EventArgument) {
     const subscribedFunctions = this.subscriberMap.get(subscribeKey);
     if (!subscribedFunctions) return;
 
