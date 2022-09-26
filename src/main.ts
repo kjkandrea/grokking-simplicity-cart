@@ -4,7 +4,7 @@ import setup from './cart/Cart';
 import {getCartData} from './cart/data/cart';
 import {CartController} from './cart';
 import {NavigationController, routes} from './router';
-import {getProducts, InsertCartController} from './shop';
+import {getProducts, InsertCart, InsertCartController} from './shop';
 
 const appElement = document.getElementById('app')!;
 const routeElement = document.createElement('nav');
@@ -25,7 +25,7 @@ const boot = {
   },
   shop() {
     const insertCartController = new InsertCartController(
-      [],
+      new InsertCart([]),
       getProducts(),
       routeViewElement
     );

@@ -1,3 +1,4 @@
+export {InsertCart} from './InsertCart';
 export {InsertCartController} from './InsertCartController';
 export {getProducts} from './data/products';
 export {MiniCartRenderer} from './views/MiniCartRenderer';
