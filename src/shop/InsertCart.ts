@@ -27,6 +27,8 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
         },
       ];
     }
+
+    this.next();
   }
 
   private get miniCartProducts() {

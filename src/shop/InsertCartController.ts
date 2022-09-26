@@ -25,6 +25,7 @@ export class InsertCartController {
     this.mountDOM(rootElement);
     const renderers = this.createRenderers();
     renderers.products.render(products);
+    this.linking(renderers);
     this.bindEvents(renderers);
   }
 
@@ -56,6 +57,13 @@ export class InsertCartController {
       miniCart: new MiniCartRenderer(this.element.miniCart),
       products: new ProductsRenderer(this.element.products),
     };
+  }
+
+  private linking(renderers: InsertCartRenderers) {
+    this.insertCart.subscribe(() => {
+      console.log('insertCart changed');
+      renderers.miniCart.render(this.insertCart.totalPrice);
+    });
   }
 
   private bindEvents(renderers: InsertCartRenderers) {
