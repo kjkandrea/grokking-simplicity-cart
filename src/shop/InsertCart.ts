@@ -18,14 +18,12 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
 
     this.total = 0;
     cost_ajax(cart, cost => {
-      console.log(`cost : ${cost}`);
+      // console.log(`cost : ${cost}`);
       this.total = cost;
       shipping_ajax(cart, shipping => {
-        console.log(`shipping : ${shipping}`);
+        // console.log(`shipping : ${shipping}`);
         this.total += shipping;
         update_total_dom(this.total);
-
-        console.log(cart);
       });
     });
   }
