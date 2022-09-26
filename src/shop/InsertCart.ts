@@ -8,7 +8,25 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
   }
 
   public setProduct(product: Product) {
-    console.log(product);
+    const includeIndex = this.miniCartProducts.findIndex(
+      prod => prod.name === product.name
+    );
+
+    if (includeIndex >= 0) {
+      const newProducts = [...this.miniCartProducts];
+      const product = newProducts[includeIndex];
+      if (!product) return;
+      product.quantity += 1;
+      this.miniCartProducts = newProducts;
+    } else {
+      this.miniCartProducts = [
+        ...this.miniCartProducts,
+        {
+          ...product,
+          quantity: 1,
+        },
+      ];
+    }
   }
 
   private get miniCartProducts() {
