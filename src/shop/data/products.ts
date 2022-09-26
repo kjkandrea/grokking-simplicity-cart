@@ -17,4 +17,8 @@ export const getProducts = (): Product[] => [
     name: 'tShort',
     price: 2,
   },
+  {
+    name: 'computer',
+    price: 600,
+  },
 ];
