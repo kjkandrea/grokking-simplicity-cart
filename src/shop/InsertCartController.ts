@@ -61,8 +61,10 @@ export class InsertCartController {
 
   private linking(renderers: InsertCartRenderers) {
     this.insertCart.subscribe(() => {
-      console.log('insertCart changed');
-      renderers.miniCart.render(this.insertCart.totalPrice);
+      // 함수형 코딩 394장. 타임라인 버그 재현 메서드 호출
+      this.insertCart.calc_cart_total(total =>
+        renderers.miniCart.render(total)
+      );
     });
   }
 

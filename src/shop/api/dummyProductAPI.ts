@@ -10,7 +10,7 @@ const getCost = (miniCartProducts: MiniCartProduct[]) => {
 export const cost_ajax = (
   cart: MiniCartProduct[],
   callback: (cost: number) => void,
-  testTime: number = Math.max(300, Math.random() * 2000) // 인자 없을 시 300 ~ 2000 ms
+  testTime = 300
 ) => {
   const cost = getCost(cart);
   setTimeout(() => callback(cost), testTime);
