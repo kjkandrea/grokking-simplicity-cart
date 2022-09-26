@@ -70,21 +70,29 @@ describe('InsertCart', () => {
       // calc_cart_total 는 callback 형식이나 다중 테스트를 위해 Promise 규약으로 형식 래핑
       const goTest = () => {
         const insertCart = new InsertCart([]);
+        let insertCount = 0;
 
         return new Promise(resolve => {
           let resolveCount = 0;
 
-          insertCart.setProduct(tShort);
-          insertCart.calc_cart_total(insertCart.miniCartProducts, total => {
-            resolveCount += 1;
-            if (resolveCount === 2) resolve(total);
-          });
+          const interval = setInterval(() => {
+            insertCount += 1;
 
-          insertCart.setProduct(computer);
-          insertCart.calc_cart_total(insertCart.miniCartProducts, total => {
-            resolveCount += 1;
-            if (resolveCount === 2) resolve(total);
-          });
+            if (insertCount > 1) {
+              insertCart.setProduct(computer);
+              insertCart.calc_cart_total(insertCart.miniCartProducts, total => {
+                resolveCount += 1;
+                if (resolveCount === 2) resolve(total);
+              });
+              clearInterval(interval);
+            } else {
+              insertCart.setProduct(tShort);
+              insertCart.calc_cart_total(insertCart.miniCartProducts, total => {
+                resolveCount += 1;
+                if (resolveCount === 2) resolve(total);
+              });
+            }
+          }, 5);
         });
       };
 
