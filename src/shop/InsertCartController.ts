@@ -63,7 +63,7 @@ export class InsertCartController {
   private linking(renderers: InsertCartRenderers) {
     this.insertCart.subscribe(() => {
       // 함수형 코딩 394장. 타임라인 버그 재현 메서드 호출
-      this.insertCart.calc_cart_total(total =>
+      this.insertCart.calc_cart_total(this.insertCart.miniCartProducts, total =>
         renderers.miniCart.render(total)
       );
     });

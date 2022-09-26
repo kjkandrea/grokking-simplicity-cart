@@ -65,9 +65,9 @@ function totalPrice () {
 
 ```ts
 function calc_cart_total(update_total_dom: (total: number) => void) {
-    const cart = [...this.miniCartProducts];
-
-    this.total = 0;
+    const cart = [...this.miniCartProducts]; // 암묵적 입력이 있습니다.
+    
+    this.total = 0; // 맴버 프로퍼티(전역)에 접근합니다.
     cost_ajax(cart, cost => {
         this.total = cost;
         shipping_ajax(cart, shipping => {
@@ -76,4 +76,24 @@ function calc_cart_total(update_total_dom: (total: number) => void) {
         });
     })
 }
+```
+
+#### 전역 변수를 인자로 바꾸기
+
+암묵적 입력이 적은 액션을 만들기 위해 이를 적용해봅니다.
+
+```ts
+function calc_cart_total(
+    cart: MiniCartProduct[], // cart를 인자로 추가합니다.
+    update_total_dom: (total: number) => void
+  ) {
+    let total = 0; // 지역 변수로 바꿉니다.
+    cost_ajax(cart, cost => {
+      total = cost;
+      shipping_ajax(cart, shipping => {
+        total += shipping;
+        update_total_dom(total);
+      });
+    });
+  }
 ```

@@ -7,7 +7,9 @@ describe('InsertCart', () => {
     it('$6 상품을 담으면 상품가 $6 + 배송비 $2 로 총 total은 $8 이다.', () => {
       const insertCart = new InsertCart([]);
       insertCart.setProduct(shoes);
-      insertCart.calc_cart_total(total => expect(total).toBe(8));
+      insertCart.calc_cart_total(insertCart.miniCartProducts, total =>
+        expect(total).toBe(8)
+      );
     });
 
     describe('타임라인 테스트', () => {
@@ -22,10 +24,12 @@ describe('InsertCart', () => {
             insertCart.setProduct(shoes);
 
             if (insertCount > 1) {
-              insertCart.calc_cart_total(total => resolve(total));
+              insertCart.calc_cart_total(insertCart.miniCartProducts, total =>
+                resolve(total)
+              );
               clearInterval(interval);
             } else {
-              insertCart.calc_cart_total(() => {});
+              insertCart.calc_cart_total(insertCart.miniCartProducts, () => {});
             }
           }, 50);
         });
@@ -38,7 +42,7 @@ describe('InsertCart', () => {
         });
       });
 
-      const COUNT = 100;
+      const COUNT = 10;
       it(`${COUNT}번 테스트해도 결과는 동일하다.`, done => {
         const rightTotals = Array.from({length: COUNT}, () => 14);
 
