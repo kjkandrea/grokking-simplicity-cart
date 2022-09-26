@@ -9,21 +9,17 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     super(miniCartProducts);
   }
 
-  // 함수형 코딩 394장. 타임라인 버그 재현 상태
-  private total = 0;
-
-  // 함수형 코딩 394장. 타임라인 버그 재현 메서드
-  public calc_cart_total(update_total_dom: (total: number) => void) {
-    const cart = [...this.miniCartProducts];
-
-    this.total = 0;
+  // 함수형 코딩 394장. 타임라인 버그 해결 적용.
+  public calc_cart_total(
+    cart: MiniCartProduct[],
+    update_total_dom: (total: number) => void
+  ) {
+    let total = 0;
     cost_ajax(cart, cost => {
-      // console.log(`cost : ${cost}`);
-      this.total = cost;
+      total = cost;
       shipping_ajax(cart, shipping => {
-        // console.log(`shipping : ${shipping}`);
-        this.total += shipping;
-        update_total_dom(this.total);
+        total += shipping;
+        update_total_dom(total);
       });
     });
   }
@@ -52,8 +48,8 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     this.next();
   }
 
-  private get miniCartProducts() {
-    return this.data;
+  public get miniCartProducts() {
+    return [...this.data];
   }
 
   private set miniCartProducts(miniCartProducts: MiniCartProduct[]) {
