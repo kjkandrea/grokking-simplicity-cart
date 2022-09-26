@@ -4,6 +4,7 @@ import setup from './cart/Cart';
 import {getCartData} from './cart/data/cart';
 import {CartController} from './cart';
 import {NavigationController, routes} from './router';
+import {InsertCartController} from './shop/InsertCartController';
 
 const appElement = document.getElementById('app')!;
 const routeElement = document.createElement('nav');
@@ -23,11 +24,8 @@ const boot = {
     cartController.cart.setCartItemOptionBy('tShort', 'size', 5);
   },
   shop() {
-    const cartController = new CartController(
-      setup(getCartData()),
-      routeViewElement
-    );
-    cartController.cart.setCartItemFieldBy('shoes', 'price', 9999);
+    const insertCartController = new InsertCartController(routeViewElement);
+    console.log(insertCartController);
   },
 } as const;
 
