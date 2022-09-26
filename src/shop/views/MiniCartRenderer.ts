@@ -19,7 +19,7 @@ export class MiniCartRenderer implements AbstractRenderer {
 
   private generatePriceElement(totalPrice: number) {
     const priceElement = document.createElement('p');
-    priceElement.textContent = `$${totalPrice}`;
+    priceElement.textContent = `🛒 total : $${totalPrice}`;
 
     return priceElement;
   }

@@ -24,6 +24,7 @@ export class InsertCartController {
     this.insertCart = insertCart;
     this.mountDOM(rootElement);
     const renderers = this.createRenderers();
+    renderers.miniCart.render(0);
     renderers.products.render(products);
     this.linking(renderers);
     this.bindEvents(renderers);
