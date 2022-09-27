@@ -17,8 +17,13 @@ function Queue(calc_cart_total: Function) {
     const queue = queue_items.shift();
     if (!queue) return;
     const [cart, update_total_dom] = queue;
-    calc_cart_total(cart, total => {
-      update_total_dom(total);
+    function worker(cart: MiniCartProduct[], done: (total: number) => void) {
+      calc_cart_total(cart, total => {
+        update_total_dom(total);
+        done(total);
+      });
+    }
+    worker(cart, () => {
       working = false;
       runNext();
     });
