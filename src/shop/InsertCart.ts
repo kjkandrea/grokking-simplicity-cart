@@ -7,6 +7,7 @@ import {shipping_ajax} from './api/dummyBuyAPI';
 type UpdateTotalDOM = (total: number) => void;
 
 // 함수형 코딩 444장. 버그 해결
+// TODO: 이런거 타입을 어떻게 지정해야할지 햇갈림.. 이건 다른 책으로 공부
 function Queue<Arguments extends any[]>(worker: Function) {
   const queue_items: Arguments[] = [];
   let working = false;
