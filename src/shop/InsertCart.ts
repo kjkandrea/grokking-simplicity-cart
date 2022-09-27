@@ -32,6 +32,16 @@ function DroppingQueue<Arguments extends any[]>(max: number, worker: Function) {
   };
 }
 
+// 488장. 타임라인을 기다리는 기능.
+// Promise.all 이랑 동일하게 동작합니다.
+function Cut(num: number, callback: () => void) {
+  let num_finished = 0;
+  return function () {
+    num_finished += 1;
+    if (num_finished === num) callback();
+  };
+}
+
 export class InsertCart extends Subscribe<MiniCartProduct[]> {
   constructor(miniCartProducts: MiniCartProduct[]) {
     super(miniCartProducts);
