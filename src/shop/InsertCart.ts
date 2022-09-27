@@ -20,7 +20,11 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     const queue = this.queue_items.shift();
     if (!queue) return;
     const [cart, update_total_dom] = queue;
-    this.calc_cart_total(cart, update_total_dom);
+    this.calc_cart_total(cart, total => {
+      update_total_dom(total);
+      this.working = false;
+      this.runNext();
+    });
   }
 
   public update_total_queue(
