@@ -8,7 +8,7 @@ type UpdateTotalDOM = (total: number) => void;
 
 // 함수형 코딩 444장. 버그 해결
 // TODO: 이런거 타입을 어떻게 지정해야할지 햇갈림.. 이건 다른 책으로 공부
-function Queue<Arguments extends any[]>(worker: Function) {
+function DroppingQueue<Arguments extends any[]>(max: number, worker: Function) {
   const queue_items: Arguments[] = [];
   let working = false;
 
@@ -26,6 +26,8 @@ function Queue<Arguments extends any[]>(worker: Function) {
 
   return function (...arg: Arguments) {
     queue_items.push(arg);
+    // 큐에 추가한 후, 항목이 max 를 넘는다면 모두 버립니다.
+    while (queue_items.length > max) queue_items.shift();
     setTimeout(() => runNext(), 0); // 이벤트 루프에 작업을 추가합니다.
   };
 }
@@ -46,7 +48,10 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     });
   }
 
-  public update_total_queue = Queue(this.calc_cart_worker.bind(this));
+  public update_total_queue = DroppingQueue(
+    1,
+    this.calc_cart_worker.bind(this)
+  );
 
   public calc_cart_total(
     cart: MiniCartProduct[],
