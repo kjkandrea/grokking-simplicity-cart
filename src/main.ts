@@ -24,18 +24,12 @@ const boot = {
     cartController.cart.setCartItemOptionBy('tShort', 'size', 5);
   },
   shop() {
-    const insertCartController = new InsertCartController(
+    new InsertCartController(
       new InsertCart([]),
       getProducts(),
       routeViewElement
     );
-    console.log(insertCartController);
   },
 } as const;
 
-const navigationController = new NavigationController(
-  routes,
-  routeElement,
-  id => boot[id]()
-);
-console.log(navigationController);
+new NavigationController(routes, routeElement, id => boot[id]());

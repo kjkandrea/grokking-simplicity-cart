@@ -4,19 +4,61 @@ import {Product} from './data/products';
 import {cost_ajax} from './api/dummyProductAPI';
 import {shipping_ajax} from './api/dummyBuyAPI';
 
+type UpdateTotalDOM = (total: number) => void;
+
+// 함수형 코딩 444장. 버그 해결
+// TODO: 이런거 타입을 어떻게 지정해야할지 햇갈림.. 이건 다른 책으로 공부
+function DroppingQueue<Arguments extends any[]>(max: number, worker: Function) {
+  const queue_items: Arguments[] = [];
+  let working = false;
+
+  function runNext() {
+    if (working) return;
+    working = true;
+    const item = queue_items.shift();
+    if (!item) return;
+
+    worker(...item, () => {
+      working = false;
+      runNext();
+    });
+  }
+
+  return function (...arg: Arguments) {
+    queue_items.push(arg);
+    // 큐에 추가한 후, 항목이 max 를 넘는다면 모두 버립니다.
+    while (queue_items.length > max) queue_items.shift();
+    setTimeout(() => runNext(), 0); // 이벤트 루프에 작업을 추가합니다.
+  };
+}
+
 export class InsertCart extends Subscribe<MiniCartProduct[]> {
   constructor(miniCartProducts: MiniCartProduct[]) {
     super(miniCartProducts);
   }
 
-  // 함수형 코딩 394장. 타임라인 버그 해결 적용.
+  private calc_cart_worker(
+    cart: MiniCartProduct[],
+    done: (total: number) => void,
+    update_total_dom: UpdateTotalDOM
+  ) {
+    this.calc_cart_total(cart, total => {
+      update_total_dom(total);
+      done(total);
+    });
+  }
+
+  public update_total_queue = DroppingQueue(
+    1,
+    this.calc_cart_worker.bind(this)
+  );
+
   public calc_cart_total(
     cart: MiniCartProduct[],
-    update_total_dom: (total: number) => void
+    update_total_dom: UpdateTotalDOM
   ) {
-    let total = 0;
     cost_ajax(cart, cost => {
-      total = cost;
+      let total = cost;
       shipping_ajax(cart, shipping => {
         total += shipping;
         update_total_dom(total);
