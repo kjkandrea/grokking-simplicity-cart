@@ -12,8 +12,11 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
   }
 
   private queue_items: [MiniCartProduct[], UpdateTotalDOM][] = [];
+  private working = false;
 
   public runNext() {
+    if (this.working) return;
+    this.working = true;
     const queue = this.queue_items.shift();
     if (!queue) return;
     const [cart, update_total_dom] = queue;
@@ -25,6 +28,7 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     update_total_dom: UpdateTotalDOM
   ) {
     this.queue_items.push([cart, update_total_dom]);
+    setTimeout(() => this.runNext(), 0); // 이벤트 루프에 작업을 추가합니다.
   }
 
   // TODO: 함수형 코딩 444장. 버그 해결 필요
