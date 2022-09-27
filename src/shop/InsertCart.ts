@@ -4,20 +4,33 @@ import {Product} from './data/products';
 import {cost_ajax} from './api/dummyProductAPI';
 import {shipping_ajax} from './api/dummyBuyAPI';
 
+type UpdateTotalDOM = (total: number) => void;
+
 export class InsertCart extends Subscribe<MiniCartProduct[]> {
   constructor(miniCartProducts: MiniCartProduct[]) {
     super(miniCartProducts);
   }
 
-  private queue_items: MiniCartProduct[][] = [];
-  public update_total_queue(cart: MiniCartProduct[]) {
-    this.queue_items.push(cart);
+  private queue_items: [MiniCartProduct[], UpdateTotalDOM][] = [];
+
+  public runNext() {
+    const queue = this.queue_items.shift();
+    if (!queue) return;
+    const [cart, update_total_dom] = queue;
+    this.calc_cart_total(cart, update_total_dom);
+  }
+
+  public update_total_queue(
+    cart: MiniCartProduct[],
+    update_total_dom: UpdateTotalDOM
+  ) {
+    this.queue_items.push([cart, update_total_dom]);
   }
 
   // TODO: 함수형 코딩 444장. 버그 해결 필요
   public calc_cart_total(
     cart: MiniCartProduct[],
-    update_total_dom: (total: number) => void
+    update_total_dom: UpdateTotalDOM
   ) {
     let total = 0;
     cost_ajax(cart, cost => {
