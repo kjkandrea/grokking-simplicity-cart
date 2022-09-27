@@ -52,9 +52,8 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     cart: MiniCartProduct[],
     update_total_dom: UpdateTotalDOM
   ) {
-    let total = 0;
     cost_ajax(cart, cost => {
-      total = cost;
+      let total = cost;
       shipping_ajax(cart, shipping => {
         total += shipping;
         update_total_dom(total);
