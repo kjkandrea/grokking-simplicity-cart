@@ -9,7 +9,7 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     super(miniCartProducts);
   }
 
-  // 함수형 코딩 394장. 타임라인 버그 해결 적용.
+  // TODO: 함수형 코딩 444장. 버그 해결 필요
   public calc_cart_total(
     cart: MiniCartProduct[],
     update_total_dom: (total: number) => void
