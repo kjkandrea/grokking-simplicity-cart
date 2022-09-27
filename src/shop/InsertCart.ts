@@ -15,10 +15,10 @@ function Queue<Arguments extends any[]>(worker: Function) {
   function runNext() {
     if (working) return;
     working = true;
-    const queue = queue_items.shift();
-    if (!queue) return;
+    const item = queue_items.shift();
+    if (!item) return;
 
-    worker(...queue, () => {
+    worker(...item, () => {
       working = false;
       runNext();
     });
