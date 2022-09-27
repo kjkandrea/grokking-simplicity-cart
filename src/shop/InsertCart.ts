@@ -7,8 +7,8 @@ import {shipping_ajax} from './api/dummyBuyAPI';
 type UpdateTotalDOM = (total: number) => void;
 
 // 함수형 코딩 444장. 버그 해결
-function Queue(calc_cart_total: Function) {
-  const queue_items: [MiniCartProduct[], UpdateTotalDOM][] = [];
+function Queue<Arguments extends any[]>(worker: Function) {
+  const queue_items: Arguments[] = [];
   let working = false;
 
   function runNext() {
@@ -16,21 +16,15 @@ function Queue(calc_cart_total: Function) {
     working = true;
     const queue = queue_items.shift();
     if (!queue) return;
-    const [cart, update_total_dom] = queue;
-    function worker(cart: MiniCartProduct[], done: (total: number) => void) {
-      calc_cart_total(cart, total => {
-        update_total_dom(total);
-        done(total);
-      });
-    }
-    worker(cart, () => {
+
+    worker(...queue, () => {
       working = false;
       runNext();
     });
   }
 
-  return function (cart: MiniCartProduct[], update_total_dom: UpdateTotalDOM) {
-    queue_items.push([cart, update_total_dom]);
+  return function (...arg: Arguments) {
+    queue_items.push(arg);
     setTimeout(() => runNext(), 0); // 이벤트 루프에 작업을 추가합니다.
   };
 }
@@ -40,25 +34,18 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     super(miniCartProducts);
   }
 
-  private queue_items: [MiniCartProduct[], UpdateTotalDOM][] = [];
-  private working = false;
-
-  public runNext() {
-    if (this.working) return;
-    this.working = true;
-    const queue = this.queue_items.shift();
-    if (!queue) return;
-    const [cart, update_total_dom] = queue;
+  private calc_cart_worker(
+    cart: MiniCartProduct[],
+    done: (total: number) => void,
+    update_total_dom: UpdateTotalDOM
+  ) {
     this.calc_cart_total(cart, total => {
       update_total_dom(total);
-      this.working = false;
-      this.runNext();
+      done(total);
     });
   }
 
-  public update_total_queue = Queue((cart, update_total_dom) =>
-    this.calc_cart_total(cart, update_total_dom)
-  );
+  public update_total_queue = Queue(this.calc_cart_worker.bind(this));
 
   public calc_cart_total(
     cart: MiniCartProduct[],
