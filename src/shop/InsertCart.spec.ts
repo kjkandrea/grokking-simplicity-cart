@@ -80,17 +80,23 @@ describe('InsertCart', () => {
 
             if (insertCount > 1) {
               insertCart.setProduct(computer);
-              insertCart.calc_cart_total(insertCart.miniCartProducts, total => {
-                resolveCount += 1;
-                if (resolveCount === 2) resolve(total);
-              });
+              insertCart.update_total_queue(
+                insertCart.miniCartProducts,
+                total => {
+                  resolveCount += 1;
+                  if (resolveCount === 2) resolve(total);
+                }
+              );
               clearInterval(interval);
             } else {
               insertCart.setProduct(tShort);
-              insertCart.calc_cart_total(insertCart.miniCartProducts, total => {
-                resolveCount += 1;
-                if (resolveCount === 2) resolve(total);
-              });
+              insertCart.update_total_queue(
+                insertCart.miniCartProducts,
+                total => {
+                  resolveCount += 1;
+                  if (resolveCount === 2) resolve(total);
+                }
+              );
             }
           }, 5);
         });

@@ -6,6 +6,30 @@ import {shipping_ajax} from './api/dummyBuyAPI';
 
 type UpdateTotalDOM = (total: number) => void;
 
+// 함수형 코딩 444장. 버그 해결
+function Queue(calc_cart_total: Function) {
+  const queue_items: [MiniCartProduct[], UpdateTotalDOM][] = [];
+  let working = false;
+
+  function runNext() {
+    if (working) return;
+    working = true;
+    const queue = queue_items.shift();
+    if (!queue) return;
+    const [cart, update_total_dom] = queue;
+    calc_cart_total(cart, total => {
+      update_total_dom(total);
+      working = false;
+      runNext();
+    });
+  }
+
+  return function (cart: MiniCartProduct[], update_total_dom: UpdateTotalDOM) {
+    queue_items.push([cart, update_total_dom]);
+    setTimeout(() => runNext(), 0); // 이벤트 루프에 작업을 추가합니다.
+  };
+}
+
 export class InsertCart extends Subscribe<MiniCartProduct[]> {
   constructor(miniCartProducts: MiniCartProduct[]) {
     super(miniCartProducts);
@@ -27,15 +51,10 @@ export class InsertCart extends Subscribe<MiniCartProduct[]> {
     });
   }
 
-  public update_total_queue(
-    cart: MiniCartProduct[],
-    update_total_dom: UpdateTotalDOM
-  ) {
-    this.queue_items.push([cart, update_total_dom]);
-    setTimeout(() => this.runNext(), 0); // 이벤트 루프에 작업을 추가합니다.
-  }
+  public update_total_queue = Queue((cart, update_total_dom) =>
+    this.calc_cart_total(cart, update_total_dom)
+  );
 
-  // TODO: 함수형 코딩 444장. 버그 해결 필요
   public calc_cart_total(
     cart: MiniCartProduct[],
     update_total_dom: UpdateTotalDOM
