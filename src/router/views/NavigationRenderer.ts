@@ -18,8 +18,6 @@ export class NavigationRenderer extends OnEmit implements AbstractRenderer {
   private generateNavigationHTMLElement(routes: Routes) {
     const wrapperElement = document.createElement('ul');
 
-    console.log(routes);
-
     Object.entries(routes)
       .map(([id, route]) => {
         const wrapperElement = document.createElement('li');

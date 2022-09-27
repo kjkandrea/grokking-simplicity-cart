@@ -104,7 +104,6 @@ describe('InsertCart', () => {
 
       it('$2, $600 상품을 담으면 상품가 $602 + 배송비 $4 로 총 total은 $606 이다.', done => {
         goTest().then(total => {
-          console.log(total);
           expect(total).toBe(606);
           done();
         });
