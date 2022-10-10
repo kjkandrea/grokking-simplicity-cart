@@ -1,5 +1,3 @@
-import array from './array';
-
 interface DataObject {
   [key: string]: any;
 }
@@ -40,8 +38,7 @@ const object = {
     modify: (object: any) => any
   ): T {
     if (keys.length === 0) return modify(object);
-    const [currentKey] = keys;
-    const restOfKeys = array.dropFirst(keys);
+    const [currentKey, ...restOfKeys] = keys;
     return this.update(object, currentKey, nestedObject => {
       return this.nestedUpdate(nestedObject, restOfKeys, modify);
     });
