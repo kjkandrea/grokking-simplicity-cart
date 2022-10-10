@@ -1,9 +1,7 @@
 import './style.css';
 import './cart.scss';
-import setup from './cart/Cart';
-import {getCartData} from './cart/data/cart';
-import {CartController} from './cart';
 import {NavigationController, routes} from './router';
+import {setup, CartController, getCartData} from './cart';
 import {getProducts, InsertCart, InsertCartController} from './shop';
 
 const appElement = document.getElementById('app')!;

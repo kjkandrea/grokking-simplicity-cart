@@ -73,6 +73,6 @@ export class Cart extends Subscribe<CartData> {
   }
 }
 
-export default function setup(cartData: CartData) {
+export function setup(cartData: CartData) {
   return new Cart(cartData);
 }
