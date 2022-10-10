@@ -14,7 +14,8 @@
     "fix": "gts fix",
     "prepare": "yarn run compile",
     "pretest": "yarn run compile",
-    "posttest": "yarn run lint"
+    "posttest": "yarn run lint",
+    "dependency-tree": "madge --include-npm --image graph.svg src/main.ts --ts-config=tsconfig.json"
   },
   "jest": {
     "testEnvironment": "jsdom"
