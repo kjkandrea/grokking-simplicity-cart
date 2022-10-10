@@ -1,4 +1,4 @@
-const array = {
+export const array = {
   pluck<Item, Field extends keyof Item>(
     array: Item[],
     fieldName: Field
@@ -10,5 +10,3 @@ const array = {
     return newArray;
   },
 };
-
-export default array;

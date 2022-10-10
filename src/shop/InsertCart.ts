@@ -1,4 +1,4 @@
-import Subscribe from '../utils/Subscribe';
+import {Subscribe} from '../utils';
 import {MiniCartProduct} from './views/MiniCartRenderer';
 import {Product} from './data/products';
 import {cost_ajax} from './api/dummyProductAPI';

@@ -1,4 +1,4 @@
-import object from './object';
+import {object} from './object';
 
 describe('utils/object', () => {
   describe('object.update 는', () => {

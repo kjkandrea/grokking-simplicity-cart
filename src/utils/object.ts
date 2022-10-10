@@ -19,7 +19,7 @@ function objectSet<T extends DataObject>(
   return newObject;
 }
 
-const object = {
+export const object = {
   update<T extends DataObject>(
     object: T,
     key: keyof T,
@@ -44,5 +44,3 @@ const object = {
     });
   },
 };
-
-export default object;

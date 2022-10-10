@@ -1,6 +1,6 @@
 import AbstractRenderer from '../../abstracts/AbstractRenderer';
 import {Product} from '../data/products';
-import {OnEmit} from '../../utils/OnEmit';
+import {OnEmit} from '../../utils';
 
 export class ProductsRenderer extends OnEmit implements AbstractRenderer {
   private readonly rootElement: HTMLElement;

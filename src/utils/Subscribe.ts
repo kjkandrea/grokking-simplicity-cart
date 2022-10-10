@@ -1,6 +1,6 @@
 export type Subscriber<Data = any> = (data: Data) => void;
 
-export default class Subscribe<Data> {
+export class Subscribe<Data> {
   protected data: Data;
 
   constructor(data: Data) {

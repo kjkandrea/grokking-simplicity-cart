@@ -1,6 +1,6 @@
 import {Routes} from '../data/routes';
 import AbstractRenderer from '../../abstracts/AbstractRenderer';
-import {OnEmit} from '../../utils/OnEmit';
+import {OnEmit} from '../../utils';
 
 export class NavigationRenderer extends OnEmit implements AbstractRenderer {
   private readonly rootElement: HTMLElement;

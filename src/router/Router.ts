@@ -1,5 +1,5 @@
 import {Routes, RouteId} from './data/routes';
-import Subscribe from '../utils/Subscribe';
+import {Subscribe} from '../utils';
 
 export class Router<RoutesType extends Routes> extends Subscribe<
   RouteId<RoutesType>

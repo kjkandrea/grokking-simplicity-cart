@@ -1,6 +1,6 @@
 import {Router} from './Router';
 import {NavigationRenderer} from './views/NavigationRenderer';
-import {Subscriber} from '../utils/Subscribe';
+import {Subscriber} from '../utils';
 import {RouteId, Routes} from './data/routes';
 
 const navigationId = 'navigation';

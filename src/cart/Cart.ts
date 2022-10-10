@@ -1,6 +1,6 @@
 import {Cart as CartData, CartItem} from './data/cart';
-import object from '../utils/object';
-import Subscribe from '../utils/Subscribe';
+import {object} from '../utils';
+import {Subscribe} from '../utils';
 import {Options} from '../shop/data/products';
 
 export class Cart extends Subscribe<CartData> {
